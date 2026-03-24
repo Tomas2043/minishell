@@ -1,0 +1,72 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2026/03/17 11:50:14 by toandrad          #+#    #+#              #
+#    Updated: 2026/03/24 13:30:07 by toandrad         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+NAME = minishell
+
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
+
+GREEN		= \033[0;32m
+YELLOW		= \033[1;33m
+BLUE		= \033[0;34m
+RED			= \033[0;31m
+BOLD		= \033[1m
+RESET		= \033[0m
+
+SRCDIR = src
+OBJSDIR = objects
+INCDIR = inc
+VPATH = $(SRCDIR)
+LIBFT_DIR = libft
+PRINTF_DIR = $(LIBFT_DIR)/printf
+
+SRCS = main.c
+
+OBJS = $(addprefix $(OBJSDIR)/, $(SRCS:.c=.o))
+
+# ================================== RULES ================================== #
+
+all: $(NAME)
+
+$(LIBFT):
+	@echo "$(YELLOW)🛠️  Building libft..."
+	@$(MAKE) -C $(LIBFT_DIR) > /dev/null 2>&1
+	@echo "$(GREEN)✅ libft built successfully.$(RESET)"
+
+$(PRINTF):
+	@echo "$(YELLOW)🛠️  Building ft_printf..."
+	@$(MAKE) -C $(PRINTF_DIR) > /dev/null 2>&1
+	@echo "$(GREEN)✅ ft_printf built successfully.$(RESET)"
+
+$(NAME): $(OBJS) $(LIBFT) $(PRINTF)
+	@echo "$(YELLOW)🛠️  Compiling $(NAME)..."
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF) -I$(INCDIR) -I$(LIBFT_DIR) -I$(PRINTF_DIR) -o $(NAME)
+	@echo "$(GREEN)✅ Executable created: $(BLUE)$(NAME)$(RESET)"
+
+$(OBJSDIR)/%.o: %.c | $(OBJSDIR)
+	@echo "$(YELLOW)🔨 Compiling $<...$(RESET)"
+	@$(CC) $(CFLAGS) -I$(INCDIR) -c $< -o $@
+
+$(OBJSDIR):
+	@mkdir -p $(OBJSDIR)
+
+clean:
+	@rm -rf $(OBJSDIR)
+	@echo "$(RED)🧹 Object files deleted$(RESET)"
+
+fclean: clean
+	@rm -f $(NAME)
+	@echo "$(RED)🗑️  All generated files deleted$(RESET)"
+
+re: fclean all
+
+.PHONY: all clean fclean re
