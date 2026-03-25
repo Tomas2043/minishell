@@ -6,7 +6,7 @@
 #    By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/17 11:50:14 by toandrad          #+#    #+#              #
-#    Updated: 2026/03/24 13:30:07 by toandrad         ###   ########.fr        #
+#    Updated: 2026/03/25 14:41:00 by toandrad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ OBJSDIR = objects
 INCDIR = inc
 VPATH = $(SRCDIR)
 LIBFT_DIR = libft
-PRINTF_DIR = $(LIBFT_DIR)/printf
+LIBFT = libft/libft.a
 
 SRCS = main.c
 
@@ -42,14 +42,9 @@ $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR) > /dev/null 2>&1
 	@echo "$(GREEN)✅ libft built successfully.$(RESET)"
 
-$(PRINTF):
-	@echo "$(YELLOW)🛠️  Building ft_printf..."
-	@$(MAKE) -C $(PRINTF_DIR) > /dev/null 2>&1
-	@echo "$(GREEN)✅ ft_printf built successfully.$(RESET)"
-
 $(NAME): $(OBJS) $(LIBFT) $(PRINTF)
 	@echo "$(YELLOW)🛠️  Compiling $(NAME)..."
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF) -I$(INCDIR) -I$(LIBFT_DIR) -I$(PRINTF_DIR) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I$(INCDIR) -I$(LIBFT_DIR) -o $(NAME) -lreadline
 	@echo "$(GREEN)✅ Executable created: $(BLUE)$(NAME)$(RESET)"
 
 $(OBJSDIR)/%.o: %.c | $(OBJSDIR)
@@ -60,10 +55,12 @@ $(OBJSDIR):
 	@mkdir -p $(OBJSDIR)
 
 clean:
+	@$(MAKE) -C $(LIBFT_DIR) clean > /dev/null 2>&1
 	@rm -rf $(OBJSDIR)
 	@echo "$(RED)🧹 Object files deleted$(RESET)"
 
 fclean: clean
+	@$(MAKE) -C $(LIBFT_DIR) fclean > /dev/null 2>&1
 	@rm -f $(NAME)
 	@echo "$(RED)🗑️  All generated files deleted$(RESET)"
 
