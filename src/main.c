@@ -10,11 +10,31 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
-int	main(int ac, char **av)
+int	main(void)
 {
-	ac = 0;
-	av = NULL;
-	printf("HELLO WORLD!");
+	char	*line;
+
+	while (1)
+	{
+		line = readline("minishell$ ");
+		if (!line)
+		{
+			printf("exit\n");
+			break ;
+		}
+		if (*line)
+			add_history(line);
+		if (strcmp(line, "clear") == 0)
+			printf("\033[H\033[J");
+		else
+			printf("%s\n", line);
+		free(line);
+	}
+	return (0);
 }
