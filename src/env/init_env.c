@@ -1,36 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/17 13:38:14 by toandrad          #+#    #+#             */
-/*   Updated: 2026/03/26 11:51:15 by toandrad         ###   ########.fr       */
+/*   Created: 2026/03/26 11:51:55 by toandrad          #+#    #+#             */
+/*   Updated: 2026/03/26 14:02:15 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
-int	main(void)
+t_env	*init_env(char **envp)
 {
-	char	*line;
+	int	i;
+	char	*eq;
+	char	*key;
+	char	*value;
+	t_env	*head;
 
-	while (1)
+	head = NULL;
+	i = 0;
+	while (envp[i])
 	{
-		line = readline("minishell$ ");
-		if (!line)
-		{
-			printf("exit\n");
-			break ;
-		}
-		if (*line)
-			add_history(line);
-		if (strcmp(line, "clear") == 0)
-			printf("\033[H\033[J");
-		else
-			printf("%s\n", line);
-		free(line);
+		eq = ft_strchr(envp[i], '=');
+		key = ft_substr(envp[i], 0, eq - envp[i]);
+		value = ft_strdup(eq + 1);
+		env_add_back(&head, new_env_node(key, value));
+		i++;
 	}
-	return (0);
+	return (head);
 }

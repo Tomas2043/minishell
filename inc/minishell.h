@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 13:15:41 by toandrad          #+#    #+#             */
-/*   Updated: 2026/03/24 14:23:07 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/03/26 13:52:40 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,15 @@ typedef struct s_shell
 	int		exit_status;
 	int		running;
 }	t_shell;
+
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+
+t_env	*new_env_node(char *key, char *value);
+void	env_add_back(t_env **list, t_env *new_node);
 
 #endif
