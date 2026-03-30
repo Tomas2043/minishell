@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+         #
+#    By: darafael <darafael@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/17 11:50:14 by toandrad          #+#    #+#              #
-#    Updated: 2026/03/24 13:30:07 by toandrad         ###   ########.fr        #
+#    Updated: 2026/03/30 13:24:13 by darafael         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,11 +25,19 @@ RESET		= \033[0m
 SRCDIR = src
 OBJSDIR = objects
 INCDIR = inc
-VPATH = $(SRCDIR)
 LIBFT_DIR = libft
-PRINTF_DIR = $(LIBFT_DIR)/printf
+LIBFT = $(LIBFT_DIR)/libft.a
 
-SRCS = main.c
+INCLUDE_FLAGS = -I$(INCDIR) -I$(LIBFT_DIR)
+
+SRCS = main.c \
+	   syntax_check.c \
+	   token_building.c \
+	   tokenizer_count.c \
+	   tokenizer_utils.c \
+	   tokenizer_utils2.c \
+	   tokenizer_words.c \
+	   utils.c
 
 OBJS = $(addprefix $(OBJSDIR)/, $(SRCS:.c=.o))
 
@@ -42,19 +50,14 @@ $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR) > /dev/null 2>&1
 	@echo "$(GREEN)✅ libft built successfully.$(RESET)"
 
-$(PRINTF):
-	@echo "$(YELLOW)🛠️  Building ft_printf..."
-	@$(MAKE) -C $(PRINTF_DIR) > /dev/null 2>&1
-	@echo "$(GREEN)✅ ft_printf built successfully.$(RESET)"
-
-$(NAME): $(OBJS) $(LIBFT) $(PRINTF)
+$(NAME): $(OBJS) $(LIBFT)
 	@echo "$(YELLOW)🛠️  Compiling $(NAME)..."
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF) -I$(INCDIR) -I$(LIBFT_DIR) -I$(PRINTF_DIR) -o $(NAME)
+	@$(CC) $(CFLAGS) $(INCLUDE_FLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 	@echo "$(GREEN)✅ Executable created: $(BLUE)$(NAME)$(RESET)"
 
-$(OBJSDIR)/%.o: %.c | $(OBJSDIR)
+$(OBJSDIR)/%.o: $(SRCDIR)/%.c | $(OBJSDIR)
 	@echo "$(YELLOW)🔨 Compiling $<...$(RESET)"
-	@$(CC) $(CFLAGS) -I$(INCDIR) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INCLUDE_FLAGS) -c $< -o $@
 
 $(OBJSDIR):
 	@mkdir -p $(OBJSDIR)
