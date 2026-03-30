@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:58:40 by toandrad          #+#    #+#             */
-/*   Updated: 2025/05/21 14:40:15 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/03/30 11:52:19 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,8 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include "../libft.h"
 
 char		*get_next_line(int fd);
-char		*ft_strdup(char *s);
-size_t		ft_strlen(char *s);
-char		*ft_substr(char *s, unsigned int start, size_t len);
-char		*ft_strjoin(char *s1, char *s2);
-char		*ft_strchr(char *s, int c);
 
 #endif

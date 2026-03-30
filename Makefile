@@ -6,7 +6,7 @@
 #    By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/17 11:50:14 by toandrad          #+#    #+#              #
-#    Updated: 2026/03/26 11:52:31 by toandrad         ###   ########.fr        #
+#    Updated: 2026/03/30 11:49:18 by toandrad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,11 +25,11 @@ RESET		= \033[0m
 SRCDIR = src
 OBJSDIR = objects
 INCDIR = inc
-VPATH = $(SRCDIR)
 LIBFT_DIR = libft
 LIBFT = libft/libft.a
+VPATH = $(SRCDIR) $(SRCDIR)/env
 
-SRCS = main.c
+SRCS = main.c env_helpers.c env_init.c
 
 OBJS = $(addprefix $(OBJSDIR)/, $(SRCS:.c=.o))
 

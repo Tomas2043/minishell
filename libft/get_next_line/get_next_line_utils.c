@@ -6,11 +6,11 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:58:34 by toandrad          #+#    #+#             */
-/*   Updated: 2025/06/09 11:10:46 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/03/30 11:52:35 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+/*#include "get_next_line.h"
 
 size_t	ft_strlen(char *s)
 {
@@ -100,4 +100,4 @@ char	*ft_strjoin(char *s1, char *s2)
 		res[i++] = s2[j++];
 	res[i] = '\0';
 	return (res);
-}
+}*/
