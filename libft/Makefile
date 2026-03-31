@@ -6,7 +6,7 @@
 #    By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/10 14:06:56 by toandrad          #+#    #+#              #
-#    Updated: 2026/03/24 13:32:05 by toandrad         ###   ########.fr        #
+#    Updated: 2026/03/30 12:12:51 by toandrad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ SRCS = \
 			ft_str/ft_strchr.c ft_str/ft_strrchr.c ft_str/ft_strncmp.c ft_str/ft_split.c \
 			ft_str/ft_strlen.c ft_str/ft_strlcpy.c ft_str/ft_strlcat.c ft_str/ft_strnstr.c \
 			ft_str/ft_striteri.c ft_str/ft_strdup.c ft_str/ft_substr.c ft_str/ft_strjoin.c \
-			ft_str/ft_strtrim.c ft_str/ft_strmapi.c \
+			ft_str/ft_strtrim.c ft_str/ft_strmapi.c	ft_str/ft_strcmp.c \
 			ft_mem/ft_memset.c ft_mem/ft_bzero.c ft_mem/ft_memcpy.c ft_mem/ft_memmove.c \
 			ft_mem/ft_memchr.c ft_mem/ft_memcmp.c ft_mem/ft_calloc.c \
 			ft_put/ft_putchar_fd.c ft_put/ft_putstr_fd.c ft_put/ft_putendl_fd.c ft_put/ft_putnbr_fd.c \

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+         #
+#    By: tomas <tomas@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/17 11:50:14 by toandrad          #+#    #+#              #
-#    Updated: 2026/03/25 14:41:00 by toandrad         ###   ########.fr        #
+#    Updated: 2026/03/31 23:05:01 by tomas            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,11 +25,11 @@ RESET		= \033[0m
 SRCDIR = src
 OBJSDIR = objects
 INCDIR = inc
-VPATH = $(SRCDIR)
 LIBFT_DIR = libft
 LIBFT = libft/libft.a
+VPATH = $(SRCDIR) $(SRCDIR)/env
 
-SRCS = main.c
+SRCS = main.c env_helpers.c env_init.c env_utils.c
 
 OBJS = $(addprefix $(OBJSDIR)/, $(SRCS:.c=.o))
 
@@ -42,7 +42,7 @@ $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR) > /dev/null 2>&1
 	@echo "$(GREEN)✅ libft built successfully.$(RESET)"
 
-$(NAME): $(OBJS) $(LIBFT) $(PRINTF)
+$(NAME): $(OBJS) $(LIBFT)
 	@echo "$(YELLOW)🛠️  Compiling $(NAME)..."
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I$(INCDIR) -I$(LIBFT_DIR) -o $(NAME) -lreadline
 	@echo "$(GREEN)✅ Executable created: $(BLUE)$(NAME)$(RESET)"
