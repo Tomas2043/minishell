@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_helpers.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomas <tomas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 13:22:45 by toandrad          #+#    #+#             */
-/*   Updated: 2026/03/30 14:47:00 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/03/31 22:06:34 by tomas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	remove_env(t_env **lst, char *key)
 {
 	t_env	*current;
 	t_env	*prev;
-	
+
 	current = *lst;
 	prev = NULL;
 	while (current)

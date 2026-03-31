@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomas <tomas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 13:15:41 by toandrad          #+#    #+#             */
-/*   Updated: 2026/03/30 14:25:14 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/03/31 23:08:37 by tomas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,20 @@ typedef struct s_shell
 	int		running;
 }	t_shell;
 
-t_env	*new_env_node(char *key, char *value);
-void	env_add_back(t_env **list, t_env *new_node);
-int	count_env_size(t_env *lst);
-
+// env_init.c
 t_env	*init_env(char **envp);
+
+// env_helpers.c
 char	*get_env(t_env *lst, char *key);
 void	set_env(t_env **lst, char *key, char *value);
+void	remove_env(t_env **lst, char *key);
+char	**env_to_array(t_env *lst);
+
+// env_utils.c
+t_env	*new_env_node(char *key, char *value);
+void	env_add_back(t_env **list, t_env *new_node);
+int		count_env_size(t_env *lst);
+void	free_env_array(char **env_array);
+void	free_list(t_env *lst);
 
 #endif

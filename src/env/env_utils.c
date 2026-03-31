@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomas <tomas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 14:09:03 by toandrad          #+#    #+#             */
-/*   Updated: 2026/03/30 14:24:59 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/03/31 23:15:56 by tomas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ t_env	*new_env_node(char *key, char *value)
 	node = malloc(sizeof(t_env));
 	if (!node)
 		return (NULL);
-	node->key = key;
-	node->value = value;
+	node->key = ft_strdup(key);
+	node->value = ft_strdup(value);
 	node->next = NULL;
 	return (node);
 }
@@ -53,4 +53,33 @@ int	count_env_size(t_env *lst)
 		lst = lst->next;
 	}
 	return (count);
+}
+
+void	free_env_array(char **env_array)
+{
+	int	i;
+
+	i = 0;
+	while (env_array[i])
+	{
+		free(env_array[i]);
+		i++;
+	}
+	free(env_array);
+}
+
+void	free_list(t_env *lst)
+{
+	t_env	*current;
+	t_env	*tmp;
+
+	current = lst;
+	while (current)
+	{
+		tmp = current->next;
+		free(current->key);
+		free(current->value);
+		free(current);
+		current = tmp;
+	}
 }
