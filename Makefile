@@ -6,7 +6,7 @@
 #    By: darafael <darafael@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/17 11:50:14 by toandrad          #+#    #+#              #
-#    Updated: 2026/04/06 11:43:50 by darafael         ###   ########.fr        #
+#    Updated: 2026/04/06 12:04:32 by darafael         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,6 +64,7 @@ $(OBJSDIR):
 	@mkdir -p $(OBJSDIR)
 
 clean:
+	@$(MAKE) -C $(LIBFT_DIR) clean > /dev/null 2>&1
 	@rm -rf $(OBJSDIR)
 	@echo "$(RED)🧹 Object files deleted$(RESET)"
 
