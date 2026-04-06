@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tomas <tomas@student.42.fr>                +#+  +:+       +#+         #
+#    By: darafael <darafael@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/17 11:50:14 by toandrad          #+#    #+#              #
-#    Updated: 2026/03/31 23:05:01 by tomas            ###   ########.fr        #
+#    Updated: 2026/04/06 13:12:43 by darafael         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,10 +26,23 @@ SRCDIR = src
 OBJSDIR = objects
 INCDIR = inc
 LIBFT_DIR = libft
-LIBFT = libft/libft.a
 VPATH = $(SRCDIR) $(SRCDIR)/env
+LIBFT = $(LIBFT_DIR)/libft.a
 
-SRCS = main.c env_helpers.c env_init.c env_utils.c
+INCLUDE_FLAGS = -I$(INCDIR) -I$(LIBFT_DIR)
+
+SRCS = main.c \
+	   env_helpers.c \
+	   env_init.c \
+	   env_utils.c \
+	   syntax_check.c \
+	   token_building.c \
+	   tokenizer_count.c \
+	   tokenizer_utils.c \
+	   tokenizer_utils2.c \
+	   tokenizer_utils3.c \
+	   tokenizer_words.c \
+	   utils.c
 
 OBJS = $(addprefix $(OBJSDIR)/, $(SRCS:.c=.o))
 
@@ -38,18 +51,18 @@ OBJS = $(addprefix $(OBJSDIR)/, $(SRCS:.c=.o))
 all: $(NAME)
 
 $(LIBFT):
-	@echo "$(YELLOW)🛠️  Building libft..."
-	@$(MAKE) -C $(LIBFT_DIR) > /dev/null 2>&1
+	@echo "$(YELLOW)🛠️  Building libft...$(RESET)"
+	@$(MAKE) -C $(LIBFT_DIR)
 	@echo "$(GREEN)✅ libft built successfully.$(RESET)"
 
 $(NAME): $(OBJS) $(LIBFT)
 	@echo "$(YELLOW)🛠️  Compiling $(NAME)..."
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I$(INCDIR) -I$(LIBFT_DIR) -o $(NAME) -lreadline
+	@$(CC) $(CFLAGS) $(INCLUDE_FLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 	@echo "$(GREEN)✅ Executable created: $(BLUE)$(NAME)$(RESET)"
 
-$(OBJSDIR)/%.o: %.c | $(OBJSDIR)
+$(OBJSDIR)/%.o: $(SRCDIR)/%.c | $(OBJSDIR)
 	@echo "$(YELLOW)🔨 Compiling $<...$(RESET)"
-	@$(CC) $(CFLAGS) -I$(INCDIR) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INCLUDE_FLAGS) -c $< -o $@
 
 $(OBJSDIR):
 	@mkdir -p $(OBJSDIR)
@@ -60,7 +73,7 @@ clean:
 	@echo "$(RED)🧹 Object files deleted$(RESET)"
 
 fclean: clean
-	@$(MAKE) -C $(LIBFT_DIR) fclean > /dev/null 2>&1
+	@$(MAKE) -C $(LIBFT_DIR) fclean
 	@rm -f $(NAME)
 	@echo "$(RED)🗑️  All generated files deleted$(RESET)"
 

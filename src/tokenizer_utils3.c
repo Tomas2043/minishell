@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   tokenizer_utils3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/11 11:18:23 by toandrad          #+#    #+#             */
-/*   Updated: 2026/03/30 13:09:42 by darafael         ###   ########.fr       */
+/*   Created: 2026/04/06 11:37:41 by darafael          #+#    #+#             */
+/*   Updated: 2026/04/06 11:39:10 by darafael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-size_t	ft_strlen(const char *s)
+char	*get_op(const char *s, size_t *i)
 {
-	size_t	len;
+	char	*res;
 
-	len = 0;
-	while (*s)
+	if ((s[*i] == '<' || s[*i] == '>') && s[*i + 1] == s[*i])
 	{
-		len++;
-		s++;
+		res = dup_str(s + *i, 2);
+		*i += 2;
 	}
-	return (len);
+	else
+	{
+		res = dup_str(s + *i, 1);
+		(*i)++;
+	}
+	return (res);
 }

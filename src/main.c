@@ -3,14 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomas <tomas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/31 22:58:52 by tomas             #+#    #+#             */
-/*   Updated: 2026/03/31 23:25:20 by tomas            ###   ########.fr       */
+/*   Created: 2026/03/17 13:38:14 by toandrad          #+#    #+#             */
+/*   Updated: 2026/04/06 13:15:53 by darafael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
+
+static void	free_tokens(t_token *tokens)
+{
+	t_token	*tmp;
+
+	while (tokens)
+	{
+		tmp = tokens->next;
+		free(tokens->value);
+		free(tokens);
+		tokens = tmp;
+	}
+}
+
+static void	handle_line(char *line)
+{
+	char	**split;
+	t_token	*tokens;
+
+	split = ms_tokenize(line);
+	if (!split)
+		return ;
+	tokens = build_token_list(split);
+	free_split(split);
+	if (!tokens)
+		return ;
+	if (!check_syntax(tokens))
+		ft_putendl_fd("minishell: syntax error near unexpected token", 2);
+	free_tokens(tokens);
+}
 
 int	main(int ac, char **av, char **envp)
 {
@@ -31,38 +61,14 @@ int	main(int ac, char **av, char **envp)
 		line = readline("minishell$ ");
 		if (!line)
 		{
-			printf("exit\n");
+			write(1, "exit\n", 5);
+			rl_clear_history();
 			break ;
 		}
 		if (*line)
+		{
 			add_history(line);
-		if (ft_strcmp(line, "clear") == 0)
-			printf("\033[H\033[J");
-		else if (ft_strcmp(line, "printenv") == 0)
-		{
-			current = env;
-			while (current)
-			{
-				printf("%s=%s\n", current->key, current->value);
-				current = current->next;
-			}
-		}
-		else if (ft_strcmp(line, "test_set") == 0)
-			set_env(&env, "MYVAR", "hello");
-		else if (ft_strcmp(line, "test_get") == 0)
-			printf("HOME=%s\n", get_env(env, "HOME"));
-		else if (ft_strcmp(line, "test_remove") == 0)
-			remove_env(&env, "MYVAR");
-		else if (ft_strcmp(line, "test_array") == 0)
-		{
-			array = env_to_array(env);
-			i = 0;
-			while (array[i])
-			{
-				printf("%s\n", array[i]);
-				i++;
-			}
-			free_env_array(array);
+			handle_line(line);
 		}
 		free(line);
 	}
