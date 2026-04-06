@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tomas <tomas@student.42.fr>                +#+  +:+       +#+         #
+#    By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/17 11:50:14 by toandrad          #+#    #+#              #
-#    Updated: 2026/03/31 23:05:01 by tomas            ###   ########.fr        #
+#    Updated: 2026/04/06 12:06:27 by toandrad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,9 +27,9 @@ OBJSDIR = objects
 INCDIR = inc
 LIBFT_DIR = libft
 LIBFT = libft/libft.a
-VPATH = $(SRCDIR) $(SRCDIR)/env
+VPATH = $(SRCDIR) $(SRCDIR)/env $(SRCDIR)/exec
 
-SRCS = main.c env_helpers.c env_init.c env_utils.c
+SRCS = main.c env_helpers.c env_init.c env_utils.c path_helpers.c path_resolution.c
 
 OBJS = $(addprefix $(OBJSDIR)/, $(SRCS:.c=.o))
 

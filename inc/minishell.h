@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomas <tomas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 13:15:41 by toandrad          #+#    #+#             */
-/*   Updated: 2026/03/31 23:08:37 by tomas            ###   ########.fr       */
+/*   Updated: 2026/04/06 12:09:56 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,9 @@ void	env_add_back(t_env **list, t_env *new_node);
 int		count_env_size(t_env *lst);
 void	free_env_array(char **env_array);
 void	free_list(t_env *lst);
+
+char	*resolve_path(char *command, t_env *lst);
+
+char	*search_in_paths(char **paths, char *command);
 
 #endif
