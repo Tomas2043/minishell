@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_words.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 09:33:36 by darafael          #+#    #+#             */
-/*   Updated: 2026/04/06 11:39:53 by darafael         ###   ########.fr       */
+/*   Updated: 2026/04/06 13:33:54 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../inc/minishell.h"
 
 static char	*fill_word(const char *s, size_t *i, char *res)
 {

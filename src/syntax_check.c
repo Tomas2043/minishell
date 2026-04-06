@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 11:58:58 by darafael          #+#    #+#             */
-/*   Updated: 2026/03/30 12:30:33 by darafael         ###   ########.fr       */
+/*   Updated: 2026/04/06 13:32:09 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../inc/minishell.h"
 
 static int	is_redir(t_token_type type)
 {

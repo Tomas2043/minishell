@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: darafael <darafael@student.42.fr>          +#+  +:+       +#+         #
+#    By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/17 11:50:14 by toandrad          #+#    #+#              #
-#    Updated: 2026/04/06 13:12:43 by darafael         ###   ########.fr        #
+#    Updated: 2026/04/06 13:46:03 by toandrad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ all: $(NAME)
 
 $(LIBFT):
 	@echo "$(YELLOW)🛠️  Building libft...$(RESET)"
-	@$(MAKE) -C $(LIBFT_DIR)
+	@$(MAKE) -C $(LIBFT_DIR) > /dev/null 2>&1
 	@echo "$(GREEN)✅ libft built successfully.$(RESET)"
 
 $(NAME): $(OBJS) $(LIBFT)
@@ -60,7 +60,7 @@ $(NAME): $(OBJS) $(LIBFT)
 	@$(CC) $(CFLAGS) $(INCLUDE_FLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 	@echo "$(GREEN)✅ Executable created: $(BLUE)$(NAME)$(RESET)"
 
-$(OBJSDIR)/%.o: $(SRCDIR)/%.c | $(OBJSDIR)
+$(OBJSDIR)/%.o: %.c | $(OBJSDIR)
 	@echo "$(YELLOW)🔨 Compiling $<...$(RESET)"
 	@$(CC) $(CFLAGS) $(INCLUDE_FLAGS) -c $< -o $@
 
@@ -73,7 +73,7 @@ clean:
 	@echo "$(RED)🧹 Object files deleted$(RESET)"
 
 fclean: clean
-	@$(MAKE) -C $(LIBFT_DIR) fclean
+	@$(MAKE) -C $(LIBFT_DIR) fclean > /dev/null 2>&1
 	@rm -f $(NAME)
 	@echo "$(RED)🗑️  All generated files deleted$(RESET)"
 

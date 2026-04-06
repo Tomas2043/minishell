@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token_building.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 11:19:04 by darafael          #+#    #+#             */
-/*   Updated: 2026/03/30 12:51:29 by darafael         ###   ########.fr       */
+/*   Updated: 2026/04/06 13:33:40 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../inc/minishell.h"
 
 static t_token_type	get_token_type(char *s)
 {
