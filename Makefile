@@ -6,7 +6,7 @@
 #    By: darafael <darafael@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/17 11:50:14 by toandrad          #+#    #+#              #
-#    Updated: 2026/03/30 13:24:13 by darafael         ###   ########.fr        #
+#    Updated: 2026/04/06 11:43:50 by darafael         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRCS = main.c \
 	   tokenizer_count.c \
 	   tokenizer_utils.c \
 	   tokenizer_utils2.c \
+	   tokenizer_utils3.c \
 	   tokenizer_words.c \
 	   utils.c
 
@@ -46,8 +47,8 @@ OBJS = $(addprefix $(OBJSDIR)/, $(SRCS:.c=.o))
 all: $(NAME)
 
 $(LIBFT):
-	@echo "$(YELLOW)🛠️  Building libft..."
-	@$(MAKE) -C $(LIBFT_DIR) > /dev/null 2>&1
+	@echo "$(YELLOW)🛠️  Building libft...$(RESET)"
+	@$(MAKE) -C $(LIBFT_DIR)
 	@echo "$(GREEN)✅ libft built successfully.$(RESET)"
 
 $(NAME): $(OBJS) $(LIBFT)
@@ -67,6 +68,7 @@ clean:
 	@echo "$(RED)🧹 Object files deleted$(RESET)"
 
 fclean: clean
+	@$(MAKE) -C $(LIBFT_DIR) fclean
 	@rm -f $(NAME)
 	@echo "$(RED)🗑️  All generated files deleted$(RESET)"
 

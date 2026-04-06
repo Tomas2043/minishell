@@ -6,7 +6,7 @@
 /*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 13:15:41 by toandrad          #+#    #+#             */
-/*   Updated: 2026/03/30 13:10:07 by darafael         ###   ########.fr       */
+/*   Updated: 2026/04/06 11:34:50 by darafael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_shell
 
 size_t	count_tokens(const char *s);
 int		handle_quote(char c, char *q);
+int		escapable_quote(char c);
 void	skip_word_chars(const char *s, size_t *i, char *q);
 void	skip_token_op(const char *s, size_t *i);
 size_t	word_len(const char *s, size_t i);
@@ -88,8 +89,8 @@ int		is_op(char c);
 char	*dup_str(const char *s, size_t len);
 void	skip_spaces(const char *s, size_t *i);
 char	**ms_tokenize(const char *s);
-int	ft_strcmp(char *s1, char *s2);
-int	check_syntax(t_token *tokens);
+int		ft_strcmp(char *s1, char *s2);
+int		check_syntax(t_token *tokens);
 t_token	*build_token_list(char **split);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: darafael <darafael@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/10 14:06:56 by toandrad          #+#    #+#              #
-#    Updated: 2026/03/30 11:54:06 by darafael         ###   ########.fr        #
+#    Updated: 2026/04/06 11:07:05 by darafael         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ SRCS = \
 			ft_mem/ft_memset.c ft_mem/ft_bzero.c ft_mem/ft_memcpy.c ft_mem/ft_memmove.c \
 			ft_mem/ft_memchr.c ft_mem/ft_memcmp.c ft_mem/ft_calloc.c \
 			ft_put/ft_putchar_fd.c ft_put/ft_putstr_fd.c ft_put/ft_putendl_fd.c ft_put/ft_putnbr_fd.c \
-			get_next_line/get_next_line_utils.c get_next_line/get_next_line.c
+			get_next_line/get_next_line.c
 
 OBJSDIR = objects
 OBJS = $(addprefix $(OBJSDIR)/, $(notdir $(SRCS:.c=.o)))
@@ -80,6 +80,10 @@ $(OBJSDIR)/%.o: ft_mem/%.c libft.h | $(OBJSDIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJSDIR)/%.o: ft_put/%.c libft.h | $(OBJSDIR)
+	@echo "$(COMPILE_EMOJI) $(YELLOW)Compiling $<...$(RESET)"
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJSDIR)/%.o: ft_lsts/%.c libft.h | $(OBJSDIR)
 	@echo "$(COMPILE_EMOJI) $(YELLOW)Compiling $<...$(RESET)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 

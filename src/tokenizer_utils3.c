@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   tokenizer_utils3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/13 15:58:40 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/06 11:08:20 by darafael         ###   ########.fr       */
+/*   Created: 2026/04/06 11:37:41 by darafael          #+#    #+#             */
+/*   Updated: 2026/04/06 11:39:10 by darafael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
-# endif
-# include <stdlib.h>
-# include <unistd.h>
-# include <fcntl.h>
-# include <stdio.h>
-# include "../libft.h"
+#include "minishell.h"
 
-char		*get_next_line(int fd);
+char	*get_op(const char *s, size_t *i)
+{
+	char	*res;
 
-#endif
+	if ((s[*i] == '<' || s[*i] == '>') && s[*i + 1] == s[*i])
+	{
+		res = dup_str(s + *i, 2);
+		*i += 2;
+	}
+	else
+	{
+		res = dup_str(s + *i, 1);
+		(*i)++;
+	}
+	return (res);
+}

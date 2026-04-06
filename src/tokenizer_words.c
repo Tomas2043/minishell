@@ -6,16 +6,11 @@
 /*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 09:33:36 by darafael          #+#    #+#             */
-/*   Updated: 2026/03/30 10:32:04 by darafael         ###   ########.fr       */
+/*   Updated: 2026/04/06 11:39:53 by darafael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	is_escapable_in_dquote_f(char c)
-{
-	return (c == '"' || c == '\\' || c == '$' || c == '`');
-}
 
 static char	*fill_word(const char *s, size_t *i, char *res)
 {
@@ -26,7 +21,8 @@ static char	*fill_word(const char *s, size_t *i, char *res)
 	q = 0;
 	while (s[*i] && (q || (!is_space(s[*i]) && !is_op(s[*i]))))
 	{
-		if (s[*i] == '\\' && q == '"' && s[*i + 1] && is_escapable_in_dquote_f(s[*i + 1]))
+		if (s[*i] == '\\' && q == '"' && s[*i + 1]
+			&& escapable_quote(s[*i + 1]))
 		{
 			res[j++] = s[*i + 1];
 			(*i) += 2;

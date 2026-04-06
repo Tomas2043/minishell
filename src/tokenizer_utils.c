@@ -6,7 +6,7 @@
 /*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 09:56:33 by darafael          #+#    #+#             */
-/*   Updated: 2026/03/30 10:27:19 by darafael         ###   ########.fr       */
+/*   Updated: 2026/04/06 11:38:54 by darafael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	handle_quote(char c, char *q)
 	return (0);
 }
 
-static int	is_escapable_in_dquote(char c)
+int	escapable_quote(char c)
 {
 	return (c == '"' || c == '\\' || c == '$' || c == '`');
 }
@@ -36,7 +36,8 @@ void	skip_word_chars(const char *s, size_t *i, char *q)
 {
 	while (s[*i] && (*q || (!is_space(s[*i]) && !is_op(s[*i]))))
 	{
-		if (s[*i] == '\\' && *q == '"' && s[*i + 1] && is_escapable_in_dquote(s[*i + 1]))
+		if (s[*i] == '\\' && *q == '"' && s[*i + 1]
+			&& escapable_quote(s[*i + 1]))
 		{
 			(*i) += 2;
 		}
@@ -58,11 +59,6 @@ void	skip_token_op(const char *s, size_t *i)
 		(*i)++;
 }
 
-static int	is_escapable_in_dquote_w(char c)
-{
-	return (c == '"' || c == '\\' || c == '$' || c == '`');
-}
-
 size_t	word_len(const char *s, size_t i)
 {
 	size_t	len;
@@ -72,7 +68,7 @@ size_t	word_len(const char *s, size_t i)
 	q = 0;
 	while (s[i] && (q || (!is_space(s[i]) && !is_op(s[i]))))
 	{
-		if (s[i] == '\\' && q == '"' && s[i + 1] && is_escapable_in_dquote_w(s[i + 1]))
+		if (s[i] == '\\' && q == '"' && s[i + 1] && escapable_quote(s[i + 1]))
 		{
 			len++;
 			i += 2;
@@ -85,21 +81,4 @@ size_t	word_len(const char *s, size_t i)
 		}
 	}
 	return (len);
-}
-
-char	*get_op(const char *s, size_t *i)
-{
-	char	*res;
-
-	if ((s[*i] == '<' || s[*i] == '>') && s[*i + 1] == s[*i])
-	{
-		res = dup_str(s + *i, 2);
-		*i += 2;
-	}
-	else
-	{
-		res = dup_str(s + *i, 1);
-		(*i)++;
-	}
-	return (res);
 }
