@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/17 13:15:41 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/06 13:16:24 by darafael         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2026/04/06 14:05:24 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -91,6 +93,11 @@ void	env_add_back(t_env **list, t_env *new_node);
 int		count_env_size(t_env *lst);
 void	free_env_array(char **env_array);
 void	free_list(t_env *lst);
+
+char	*resolve_path(char *command, t_env *lst);
+
+char	*search_in_paths(char **paths, char *command);
+
 size_t	count_tokens(const char *s);
 int		handle_quote(char c, char *q);
 int		escapable_quote(char c);
