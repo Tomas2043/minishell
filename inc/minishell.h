@@ -5,10 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/17 13:15:41 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/06 12:09:56 by toandrad         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2026/04/06 14:05:24 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -22,6 +24,23 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+typedef enum e_token_type
+{
+	TOK_WORD,
+	TOK_PIPE,
+	TOK_REDIR_IN,
+	TOK_REDIR_OUT,
+	TOK_APPEND,
+	TOK_HEREDOC
+}	t_token_type;
+
+typedef struct s_token
+{
+	t_token_type		type;
+	char				*value;
+	struct s_token		*next;
+}	t_token;
 
 typedef enum e_redir_type
 {
@@ -78,5 +97,22 @@ void	free_list(t_env *lst);
 char	*resolve_path(char *command, t_env *lst);
 
 char	*search_in_paths(char **paths, char *command);
+
+size_t	count_tokens(const char *s);
+int		handle_quote(char c, char *q);
+int		escapable_quote(char c);
+void	skip_word_chars(const char *s, size_t *i, char *q);
+void	skip_token_op(const char *s, size_t *i);
+size_t	word_len(const char *s, size_t i);
+char	*get_op(const char *s, size_t *i);
+void	free_split(char **arr);
+int		is_space(char c);
+int		is_op(char c);
+char	*dup_str(const char *s, size_t len);
+void	skip_spaces(const char *s, size_t *i);
+char	**ms_tokenize(const char *s);
+int		ft_strcmp(char *s1, char *s2);
+int		check_syntax(t_token *tokens);
+t_token	*build_token_list(char **split);
 
 #endif
