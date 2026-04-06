@@ -26,7 +26,7 @@ SRCDIR = src
 OBJSDIR = objects
 INCDIR = inc
 LIBFT_DIR = libft
-VPATH = $(SRCDIR) $(SRCDIR)/env $(SRCDIR)/exec
+VPATH = $(SRCDIR) $(SRCDIR)/env $(SRCDIR)/tokenizer $(SRCDIR)/utilitarians $(SRCDIR)/exec
 LIBFT = $(LIBFT_DIR)/libft.a
 
 INCLUDE_FLAGS = -I$(INCDIR) -I$(LIBFT_DIR)
