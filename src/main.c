@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 13:38:14 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/06 13:34:03 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/07 12:12:39 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@ static void	free_tokens(t_token *tokens)
 	}
 }
 
-static void	handle_line(char *line)
+static void	handle_line(char *line, t_shell *shell)
 {
 	char	**split;
 	t_token	*tokens;
 
+	(void)shell;
 	split = ms_tokenize(line);
 	if (!split)
 		return ;
@@ -45,18 +46,14 @@ static void	handle_line(char *line)
 int	main(int ac, char **av, char **envp)
 {
 	char	*line;
-	t_env	*env;
-	t_env	*current;
-	char	**array;
-	int		i;
+	t_shell	shell;
 
 	(void)ac;
 	(void)av;
-	env = init_env(envp);
-	current = NULL;
-	array = NULL;
-	i = 0;
-	while (1)
+	shell.env = init_env(envp);
+	shell.exit_status = 0;
+	shell.running = 1;
+	while (shell.running)
 	{
 		line = readline("minishell$ ");
 		if (!line)
@@ -68,10 +65,10 @@ int	main(int ac, char **av, char **envp)
 		if (*line)
 		{
 			add_history(line);
-			handle_line(line);
+			handle_line(line, &shell);
 		}
 		free(line);
 	}
-	free_list(env);
+	free_list(shell.env);
 	return (0);
 }
