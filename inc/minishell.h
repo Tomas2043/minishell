@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 12:54:08 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/08 14:33:26 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/08 14:59:28 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,5 +129,9 @@ char	**ms_tokenize(const char *s);
 int		ft_strcmp(char *s1, char *s2);
 int		check_syntax(t_token *tokens);
 t_token	*build_token_list(char **split);
+
+char	*expand_string(char *str, t_shell *shell);
+void	expand_tokens(t_token *tokens, t_shell *shell);
+void	expand_all(t_cmd *cmds, t_shell *shell);
 
 #endif
