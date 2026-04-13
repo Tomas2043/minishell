@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: darafael <darafael@student.42.fr>          +#+  +:+       +#+         #
+#    By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/10 14:06:56 by toandrad          #+#    #+#              #
-#    Updated: 2026/04/06 13:13:26 by darafael         ###   ########.fr        #
+#    Updated: 2026/04/08 14:28:05 by toandrad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ ROCKET_EMOJI = 🚀
 
 SRCS = \
 			ft_is/ft_isalpha.c ft_is/ft_isdigit.c ft_is/ft_isalnum.c ft_is/ft_isascii.c ft_is/ft_isprint.c \
+			ft_isnumeric.c \
 			ft_lsts/ft_lstadd_back.c ft_lsts/ft_lstadd_front.c ft_lsts/ft_lstclear.c ft_lsts/ft_lstdelone.c \
 			ft_lsts/ft_lstiter.c ft_lsts/ft_lstlast.c ft_lsts/ft_lstmap.c ft_lsts/ft_lstnew.c ft_lsts/ft_lstsize.c \
 			ft_to/ft_itoa.c ft_to/ft_toupper.c ft_to/ft_tolower.c ft_to/ft_atoi.c \

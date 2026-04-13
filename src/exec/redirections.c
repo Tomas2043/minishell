@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 14:36:56 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/07 12:00:31 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/08 12:53:27 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,11 @@ void	apply_redirections(t_redir *lst)
 		if (current->type == REDIR_IN)
 			open_and_redirect(current->filename, O_RDONLY, STDIN_FILENO);
 		else if (current->type == REDIR_OUT)
-			open_and_redirect(current->filename, O_WRONLY | O_CREAT | O_TRUNC, STDOUT_FILENO);
+			open_and_redirect(current->filename, O_WRONLY | O_CREAT
+				| O_TRUNC, STDOUT_FILENO);
 		else if (current->type == REDIR_APPEND)
-			open_and_redirect(current->filename, O_WRONLY | O_CREAT | O_APPEND, STDOUT_FILENO);
+			open_and_redirect(current->filename, O_WRONLY | O_CREAT
+				| O_APPEND, STDOUT_FILENO);
 		// TODO: add heredoc
 		current = current->next;
 	}

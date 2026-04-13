@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/07 17:58:47 by darafael          #+#    #+#             */
-/*   Updated: 2026/04/07 18:15:17 by darafael         ###   ########.fr       */
+/*   Created: 2026/04/08 12:54:08 by toandrad          #+#    #+#             */
+/*   Updated: 2026/04/13 14:08:08 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,29 @@ int		count_env_size(t_env *lst);
 void	free_env_array(char **env_array);
 void	free_list(t_env *lst);
 
+// path_resolution.c
 char	*resolve_path(char *command, t_env *lst);
-
 char	*search_in_paths(char **paths, char *command);
+
+// redirections.c
+void	apply_redirections(t_redir *lst);
+
+// builtins.c & builtins2.c
+int		is_builtin(t_cmd *cmd);
+void	builtin_env(t_shell *shell);
+void	builtin_pwd(void);
+void	builtin_echo(t_cmd *cmd);
+void	builtin_exit(t_cmd *cmd, t_shell *shell);
+void	builtins_cd(t_cmd *cmd, t_shell *shell);
+void	builtins_export(t_cmd *cmd, t_shell *shell);
+void	builtins_unset(t_cmd *cmd, t_shell *shell);
+
+// executor.c
+void	execute(t_cmd *cmd, t_shell *shell);
+
+// executor_helpers.c
+void	wait_child(pid_t pid, t_shell *shell);
+void	child_execute(t_cmd *cmd, char *path, t_shell *shell);
 
 size_t	count_tokens(const char *s);
 int		handle_quote(char c, char *q);

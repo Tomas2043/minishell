@@ -6,7 +6,7 @@
 #    By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/17 11:50:14 by toandrad          #+#    #+#              #
-#    Updated: 2026/04/06 14:36:47 by toandrad         ###   ########.fr        #
+#    Updated: 2026/04/08 11:50:48 by toandrad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,11 @@ SRCS = main.c \
 	   tokenizer_words.c \
 	   utils.c \
 		 path_resolution.c \
+		 redirections.c \
+		 builtins.c \
+		 executor.c \
+		 executor_helpers.c \
+		 
 
 OBJS = $(addprefix $(OBJSDIR)/, $(SRCS:.c=.o))
 
