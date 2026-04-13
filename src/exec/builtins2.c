@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 14:32:00 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/13 13:54:47 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/13 14:11:41 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,17 @@ void	builtins_export(t_cmd *cmd, t_shell *shell)
 			export_var(cmd->argv[i], shell);
 			i++;
 		}
+	}
+}
+
+void	builtins_unset(t_cmd *cmd, t_shell *shell)
+{
+	int	i;
+
+	i = 1;
+	while (cmd->argv[i])
+	{
+		remove_env(&shell->env, cmd->argv[i]);
+		i++;
 	}
 }
