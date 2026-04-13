@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 14:32:00 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/13 14:11:41 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/13 14:33:55 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static char	*get_cd_path(t_cmd *cmd, t_shell *shell)
 	return (cmd->argv[1]); 
 }
 
-void	builtins_cd(t_cmd *cmd, t_shell *shell)
+void	builtin_cd(t_cmd *cmd, t_shell *shell)
 {
 	char	*path;
 	char	*oldpwd;
@@ -67,7 +67,7 @@ static void	export_var(char *arg, t_shell *shell)
 	free(value);
 }
 
-void	builtins_export(t_cmd *cmd, t_shell *shell)
+void	builtin_export(t_cmd *cmd, t_shell *shell)
 {
 	t_env	*current;
 	int		i;
@@ -92,7 +92,7 @@ void	builtins_export(t_cmd *cmd, t_shell *shell)
 	}
 }
 
-void	builtins_unset(t_cmd *cmd, t_shell *shell)
+void	builtin_unset(t_cmd *cmd, t_shell *shell)
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 12:54:08 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/13 14:08:08 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/13 14:34:07 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,9 @@ void	builtin_env(t_shell *shell);
 void	builtin_pwd(void);
 void	builtin_echo(t_cmd *cmd);
 void	builtin_exit(t_cmd *cmd, t_shell *shell);
-void	builtins_cd(t_cmd *cmd, t_shell *shell);
-void	builtins_export(t_cmd *cmd, t_shell *shell);
-void	builtins_unset(t_cmd *cmd, t_shell *shell);
+void	builtin_cd(t_cmd *cmd, t_shell *shell);
+void	builtin_export(t_cmd *cmd, t_shell *shell);
+void	builtin_unset(t_cmd *cmd, t_shell *shell);
 
 // executor.c
 void	execute(t_cmd *cmd, t_shell *shell);

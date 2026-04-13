@@ -6,7 +6,7 @@
 #    By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/17 11:50:14 by toandrad          #+#    #+#              #
-#    Updated: 2026/04/08 11:50:48 by toandrad         ###   ########.fr        #
+#    Updated: 2026/04/13 14:34:15 by toandrad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ SRCS = main.c \
 		 path_resolution.c \
 		 redirections.c \
 		 builtins.c \
+		 builtins2.c \
 		 executor.c \
 		 executor_helpers.c \
 		 
