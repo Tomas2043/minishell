@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 13:14:41 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/08 14:33:50 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/16 14:43:34 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,11 @@ void	execute(t_cmd *cmd, t_shell *shell)
 {
 	int	builtin;
 
+	if (cmd->next)
+	{
+		execute_pipeline(cmd, shell);
+		return ;
+	}
 	builtin = is_builtin(cmd);
 	if (builtin)
 		execute_builtin(cmd, shell, builtin);
