@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 14:32:00 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/17 13:36:00 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/17 14:01:08 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void	export_var(char *arg, t_shell *shell)
 		return ;
 	key = ft_substr(arg, 0, eq - arg);
 	value = ft_strdup(eq + 1);
-	if (is_valid_indentifier(key))
+	if (is_valid_identifier(key))
 		set_env(&shell->env, key, value);
 	else
 	{
