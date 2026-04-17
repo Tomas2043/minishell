@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 12:54:08 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/16 11:39:00 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/17 13:24:42 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,12 @@ void	builtin_exit(t_cmd *cmd, t_shell *shell);
 void	builtin_cd(t_cmd *cmd, t_shell *shell);
 void	builtin_export(t_cmd *cmd, t_shell *shell);
 void	builtin_unset(t_cmd *cmd, t_shell *shell);
+
+// builtin_utils.c
+int		is_n_flag(char *str);
+int		is_valid_identifier(char *str);
+void	sort_env_array(char **array, int size);
+char	**env_to_declare_array(t_env *lst);
 
 // executor.c
 void	execute(t_cmd *cmd, t_shell *shell);
