@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 14:36:56 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/08 12:53:27 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/17 14:24:19 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,9 @@ void	apply_redirections(t_redir *lst)
 		// TODO: add heredoc
 		current = current->next;
 	}
+}
+
+int	handle_heredoc(char *delimiter)
+{
+	int	fd;
 }
