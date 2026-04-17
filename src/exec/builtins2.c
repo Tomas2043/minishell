@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 14:32:00 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/17 11:53:42 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/17 13:36:00 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,19 @@ static void	export_var(char *arg, t_shell *shell)
 void	builtin_export(t_cmd *cmd, t_shell *shell)
 {
 	t_env	*current;
+	char	**array;
 	int		i;
 
 	current = shell->env;
 	i = 1;
 	if (cmd->argv[1] == NULL)
 	{
-		while (current)
-		{
-			printf("declare -x %s=\"%s\"\n", current->key, current->value);
-			current = current->next;
-		}
+		array = env_to_declare_array(shell->env);
+		sort_env_array(array, count_env_size(shell->env));
+		i = -1;
+		while (array[++i])
+			printf("%s\n", array[i]);
+		free_env_array(array);
 	}
 	else
 	{
@@ -106,7 +108,14 @@ void	builtin_unset(t_cmd *cmd, t_shell *shell)
 	i = 1;
 	while (cmd->argv[i])
 	{
-		remove_env(&shell->env, cmd->argv[i]);
+		if (is_valid_identifier(cmd->argv[i]))
+			remove_env(&shell->env, cmd->argv[i]);
+		else
+		{
+			ft_putstr_fd("minishell: unset: '", 2);
+			ft_putstr_fd(cmd->argv[i], 2);
+			ft_putendl_fd("': not a valid identifier", 2);
+		}
 		i++;
 	}
 }

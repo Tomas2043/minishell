@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:59:56 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/17 11:40:33 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/17 13:48:38 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,17 @@ void	builtin_exit(t_cmd *cmd, t_shell *shell)
 	printf("exit\n");
 	if (!cmd->argv[1])
 		exit(shell->exit_status);
-	else if (!ft_isnumeric(cmd->argv[1]))
+	else if (!ft_isnumeric(cmd->argv[1])
+		|| ft_strlen(cmd->argv[1]) - (cmd->argv[1][0] == '-') > 19)
 	{
 		ft_putendl_fd("minishell: exit: numeric argument required", 2);
 		exit(255);
+	}
+	else if (cmd->argv[2] != NULL)
+	{
+		ft_putendl_fd("minishell: exit: too many arguments", 2);
+		shell->exit_status = 1;
+		return ;
 	}
 	else
 		exit(ft_atoi(cmd->argv[1]));
