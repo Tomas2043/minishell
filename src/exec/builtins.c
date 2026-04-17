@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:59:56 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/16 11:39:17 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/17 11:40:33 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	builtin_echo(t_cmd *cmd)
 		write(1, "\n", 1);
 		return ;
 	}
-	if (ft_strcmp(cmd->argv[1], "-n") == 0)
+	if (is_n_flag(cmd->argv[1]))
 	{
 		newline = 0;
 		i = 2;
