@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 12:54:08 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/13 14:34:07 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/16 11:39:00 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+typedef struct s_pipe_info
+{
+	int	**pipes;
+	int	i;
+	int	n;
+}	t_pipe_info;
 
 typedef enum e_token_type
 {
@@ -76,7 +83,7 @@ typedef struct s_shell
 	int		running;
 }	t_shell;
 
-// env_init.c
+// env_init.c 
 t_env	*init_env(char **envp);
 
 // env_helpers.c
@@ -115,6 +122,13 @@ void	execute(t_cmd *cmd, t_shell *shell);
 // executor_helpers.c
 void	wait_child(pid_t pid, t_shell *shell);
 void	child_execute(t_cmd *cmd, char *path, t_shell *shell);
+
+// pipes.c
+void	execute_pipeline(t_cmd *cmd, t_shell *shell);
+
+// pipe_helpers.c
+int		count_cmds(t_cmd *cmd);
+void	free_pipes(int **pipes, int count);
 
 size_t	count_tokens(const char *s);
 int		handle_quote(char c, char *q);

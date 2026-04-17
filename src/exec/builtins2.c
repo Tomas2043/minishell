@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 14:32:00 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/13 14:33:55 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/16 11:39:39 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char	*get_cd_path(t_cmd *cmd, t_shell *shell)
 		}
 		return (path);
 	}
-	return (cmd->argv[1]); 
+	return (cmd->argv[1]);
 }
 
 void	builtin_cd(t_cmd *cmd, t_shell *shell)

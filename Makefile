@@ -6,7 +6,7 @@
 #    By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/17 11:50:14 by toandrad          #+#    #+#              #
-#    Updated: 2026/04/13 14:34:15 by toandrad         ###   ########.fr        #
+#    Updated: 2026/04/16 14:44:39 by toandrad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,8 @@ SRCS = main.c \
 		 builtins2.c \
 		 executor.c \
 		 executor_helpers.c \
+		 pipes.c \
+		 pipe_helpers.c \
 		 
 
 OBJS = $(addprefix $(OBJSDIR)/, $(SRCS:.c=.o))

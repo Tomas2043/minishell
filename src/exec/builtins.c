@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:59:56 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/08 14:31:32 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/16 11:39:17 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	builtin_echo(t_cmd *cmd)
 	if (!cmd->argv[i])
 	{
 		write(1, "\n", 1);
-		return ;	
+		return ;
 	}
 	if (ft_strcmp(cmd->argv[1], "-n") == 0)
 	{
