@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomas <tomas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 12:54:08 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/17 13:24:42 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/18 19:05:47 by tomas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_redir
 {
 	t_redir_type	type;
 	char			*filename;
+	int				quoted;
 	struct s_redir	*next;
 }	t_redir;
 
@@ -104,7 +105,7 @@ char	*resolve_path(char *command, t_env *lst);
 char	*search_in_paths(char **paths, char *command);
 
 // redirections.c
-void	apply_redirections(t_redir *lst);
+void	apply_redirections(t_redir *lst, t_shell *shell);
 
 // builtins.c & builtins2.c
 int		is_builtin(t_cmd *cmd);

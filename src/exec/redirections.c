@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomas <tomas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 14:36:56 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/17 14:24:19 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/18 19:15:17 by tomas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ void	open_and_redirect(char *filename, int flags, int target)
 	close(fd);
 }
 
-void	apply_redirections(t_redir *lst)
+void	apply_redirections(t_redir *lst, t_shell *shell)
 {
 	t_redir	*current;
+	int		fd;
 
 	current = lst;
 	while (current)
@@ -41,12 +42,52 @@ void	apply_redirections(t_redir *lst)
 		else if (current->type == REDIR_APPEND)
 			open_and_redirect(current->filename, O_WRONLY | O_CREAT
 				| O_APPEND, STDOUT_FILENO);
-		// TODO: add heredoc
+		else if (current->type == REDIR_HEREDOC)
+		{
+			fd = handle_heredoc(current->filename, shell, current->quoted);
+			dup2(fd, STDIN_FILENO);
+			close(fd);
+		}
 		current = current->next;
 	}
 }
 
-int	handle_heredoc(char *delimiter)
+static void	write_heredoc_line(char *line, t_shell *shell, int fd, int quoted)
 {
-	int	fd;
+	char	*expanded;
+
+	if (!quoted)
+		expanded = expand_string(line, shell);
+	else
+		expanded = ft_strdup(line);
+	write(fd, expanded, ft_strlen(expanded));
+	write(1, "\n", 1);
+	free(expanded);
+	free(line);
+}
+
+int	handle_heredoc(char *delimiter, t_shell *shell, int quoted)
+{
+	int		fd[2];
+	char	*line;
+	char	*expanded;
+
+	pipe(fd);
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+		{
+			ft_putendl_fd("warning: here-document delimited by end-of-file", 2);
+			break ;
+		}
+		if (ft_strcmp(line, delimiter) == 0)
+		{
+			free(line);
+			break ;
+		}
+		write_heredoc_line(line, shell, fd[1], quoted);
+	}
+	close(fd[1]);
+	return (fd[0]);
 }
