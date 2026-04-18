@@ -6,7 +6,7 @@
 /*   By: tomas <tomas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 14:36:56 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/18 19:15:17 by tomas            ###   ########.fr       */
+/*   Updated: 2026/04/18 19:20:08 by tomas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	handle_heredoc(char *delimiter, t_shell *shell, int quoted)
 {
 	int		fd[2];
 	char	*line;
-	char	*expanded;
 
 	pipe(fd);
 	while (1)
