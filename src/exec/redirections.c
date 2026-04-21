@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomas <tomas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 14:36:56 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/18 19:20:08 by tomas            ###   ########.fr       */
+/*   Updated: 2026/04/21 10:07:37 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,32 +24,6 @@ void	open_and_redirect(char *filename, int flags, int target)
 	}
 	dup2(fd, target);
 	close(fd);
-}
-
-void	apply_redirections(t_redir *lst, t_shell *shell)
-{
-	t_redir	*current;
-	int		fd;
-
-	current = lst;
-	while (current)
-	{
-		if (current->type == REDIR_IN)
-			open_and_redirect(current->filename, O_RDONLY, STDIN_FILENO);
-		else if (current->type == REDIR_OUT)
-			open_and_redirect(current->filename, O_WRONLY | O_CREAT
-				| O_TRUNC, STDOUT_FILENO);
-		else if (current->type == REDIR_APPEND)
-			open_and_redirect(current->filename, O_WRONLY | O_CREAT
-				| O_APPEND, STDOUT_FILENO);
-		else if (current->type == REDIR_HEREDOC)
-		{
-			fd = handle_heredoc(current->filename, shell, current->quoted);
-			dup2(fd, STDIN_FILENO);
-			close(fd);
-		}
-		current = current->next;
-	}
 }
 
 static void	write_heredoc_line(char *line, t_shell *shell, int fd, int quoted)
@@ -89,4 +63,30 @@ int	handle_heredoc(char *delimiter, t_shell *shell, int quoted)
 	}
 	close(fd[1]);
 	return (fd[0]);
+}
+
+void	apply_redirections(t_redir *lst, t_shell *shell)
+{
+	t_redir	*current;
+	int		fd;
+
+	current = lst;
+	while (current)
+	{
+		if (current->type == REDIR_IN)
+			open_and_redirect(current->filename, O_RDONLY, STDIN_FILENO);
+		else if (current->type == REDIR_OUT)
+			open_and_redirect(current->filename, O_WRONLY | O_CREAT
+				| O_TRUNC, STDOUT_FILENO);
+		else if (current->type == REDIR_APPEND)
+			open_and_redirect(current->filename, O_WRONLY | O_CREAT
+				| O_APPEND, STDOUT_FILENO);
+		else if (current->type == REDIR_HEREDOC)
+		{
+			fd = handle_heredoc(current->filename, shell, current->quoted);
+			dup2(fd, STDIN_FILENO);
+			close(fd);
+		}
+		current = current->next;
+	}
 }
