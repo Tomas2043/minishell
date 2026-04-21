@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomas <tomas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 14:47:01 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/16 14:26:28 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/17 22:53:10 by tomas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	child_pipeline(t_cmd *current, t_pipe_info *info, t_shell *shell)
 		close(info->pipes[j][1]);
 		j++;
 	}
-	apply_redirections(current->redirs);
+	apply_redirections(current->redirs, shell);
 	builtin = is_builtin(current);
 	if (builtin)
 	{

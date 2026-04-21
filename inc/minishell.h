@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 12:54:08 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/17 13:24:42 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/21 10:30:27 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_redir
 {
 	t_redir_type	type;
 	char			*filename;
+	int				quoted;
 	struct s_redir	*next;
 }	t_redir;
 
@@ -104,7 +105,7 @@ char	*resolve_path(char *command, t_env *lst);
 char	*search_in_paths(char **paths, char *command);
 
 // redirections.c
-void	apply_redirections(t_redir *lst);
+void	apply_redirections(t_redir *lst, t_shell *shell);
 
 // builtins.c & builtins2.c
 int		is_builtin(t_cmd *cmd);
@@ -156,5 +157,7 @@ t_token	*build_token_list(char **split);
 char	*expand_string(char *str, t_shell *shell);
 void	expand_tokens(t_token *tokens, t_shell *shell);
 void	expand_all(t_cmd *cmds, t_shell *shell);
+char	*get_var(char *str, int *skip);
+char	*expand_var(char *str, int *i, t_shell *shell);
 
 #endif

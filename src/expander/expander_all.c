@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expander1.c                                        :+:      :+:    :+:   */
+/*   expander_all.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:03:44 by darafael          #+#    #+#             */
-/*   Updated: 2026/04/07 18:15:06 by darafael         ###   ########.fr       */
+/*   Updated: 2026/04/21 10:29:34 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static char	*expand_var(char *str, int *i, t_shell *shell)
+char	*expand_var(char *str, int *i, t_shell *shell)
 {
 	char	*var_name;
 	char	*var_value;
@@ -38,7 +38,7 @@ static char	*expand_var(char *str, int *i, t_shell *shell)
 	return (expanded);
 }
 
-static void	expand_tokens(t_token *tokens, t_shell *shell)
+void	expand_tokens(t_token *tokens, t_shell *shell)
 {
 	t_token	*current;
 	char	*expanded;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomas <tomas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 13:14:41 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/16 14:43:34 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/17 22:53:04 by tomas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	execute_builtin(t_cmd *cmd, t_shell *shell, int builtin)
 
 	saved_stdout = dup(STDOUT_FILENO);
 	saved_stdin = dup(STDIN_FILENO);
-	apply_redirections(cmd->redirs);
+	apply_redirections(cmd->redirs, shell);
 	if (builtin == 1)
 		builtin_echo(cmd);
 	else if (builtin == 2)
