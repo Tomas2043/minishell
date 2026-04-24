@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 14:36:56 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/21 10:07:37 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/24 12:52:45 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	handle_heredoc(char *delimiter, t_shell *shell, int quoted)
 	while (1)
 	{
 		line = readline("> ");
+		if (g_signal == 0)
+			return (g_signal = 0, close(fd[1]), -1);
 		if (!line)
 		{
 			ft_putendl_fd("warning: here-document delimited by end-of-file", 2);
@@ -84,6 +86,8 @@ void	apply_redirections(t_redir *lst, t_shell *shell)
 		else if (current->type == REDIR_HEREDOC)
 		{
 			fd = handle_heredoc(current->filename, shell, current->quoted);
+			if (fd == -1)
+				return ;
 			dup2(fd, STDIN_FILENO);
 			close(fd);
 		}
