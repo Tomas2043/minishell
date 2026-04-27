@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 14:32:00 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/17 14:01:08 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/27 10:12:16 by darafael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,9 @@ static void	export_var(char *arg, t_shell *shell)
 
 void	builtin_export(t_cmd *cmd, t_shell *shell)
 {
-	t_env	*current;
 	char	**array;
 	int		i;
 
-	current = shell->env;
 	i = 1;
 	if (cmd->argv[1] == NULL)
 	{
@@ -88,7 +86,7 @@ void	builtin_export(t_cmd *cmd, t_shell *shell)
 		sort_env_array(array, count_env_size(shell->env));
 		i = -1;
 		while (array[++i])
-			printf("%s\n", array[i]);
+			ft_putendl_fd(array[i], 1);
 		free_env_array(array);
 	}
 	else

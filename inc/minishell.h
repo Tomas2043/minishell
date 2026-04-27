@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 12:54:08 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/21 10:30:27 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/27 10:22:37 by darafael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,5 +159,15 @@ void	expand_tokens(t_token *tokens, t_shell *shell);
 void	expand_all(t_cmd *cmds, t_shell *shell);
 char	*get_var(char *str, int *skip);
 char	*expand_var(char *str, int *i, t_shell *shell);
+
+t_redir	*new_redir(t_redir_type type, char *filename, int quoted);
+void	redir_add_back(t_redir **head, t_redir *node);
+t_cmd	*parse_tokens(t_token *tokens);
+
+int		fill_cmd(t_cmd *cmd, t_token **tok);
+
+void	free_redir_list(t_redir *redir);
+void	free_cmd(t_cmd *cmd);
+void	free_cmd_list(t_cmd *cmd);
 
 #endif
