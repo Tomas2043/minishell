@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 13:22:45 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/17 13:10:12 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/27 12:35:55 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	set_env(t_env **lst, char *key, char *value)
 		if (ft_strcmp(current->key, key) == 0)
 		{
 			free(current->value);
-			current->value = value;
+			current->value = ft_strdup(value);
 			found = 1;
 			break ;
 		}

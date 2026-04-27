@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 11:28:48 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/06 14:36:36 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/27 12:45:37 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*resolve_path(char *command, t_env *lst)
 	if (ft_strchr(command, '/'))
 	{
 		if (access(command, X_OK) == 0)
-			return (command);
+			return (ft_strdup(command));
 		return (NULL);
 	}
 	path = get_env(lst, "PATH");
