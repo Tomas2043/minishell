@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+         #
+#    By: darafael <darafael@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/17 11:50:14 by toandrad          #+#    #+#              #
-#    Updated: 2026/04/21 10:08:49 by toandrad         ###   ########.fr        #
+#    Updated: 2026/04/27 09:56:41 by darafael         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ SRCDIR = src
 OBJSDIR = objects
 INCDIR = inc
 LIBFT_DIR = libft
-VPATH = $(SRCDIR) $(SRCDIR)/env $(SRCDIR)/tokenizer $(SRCDIR)/utilitarians $(SRCDIR)/exec $(SRCDIR)/expander
+VPATH = $(SRCDIR) $(SRCDIR)/env $(SRCDIR)/tokenizer $(SRCDIR)/utilitarians $(SRCDIR)/exec $(SRCDIR)/expander $(SRCDIR)/parser
 LIBFT = $(LIBFT_DIR)/libft.a
 
 INCLUDE_FLAGS = -I$(INCDIR) -I$(LIBFT_DIR)
@@ -54,6 +54,9 @@ SRCS = main.c \
 		 builtins_utils.c \
 		 expander_all.c \
 		 expander_str.c \
+		 parser_cmd.c \
+		 parser_fill.c \
+		 parser_free.c \
 		 
 
 OBJS = $(addprefix $(OBJSDIR)/, $(SRCS:.c=.o))

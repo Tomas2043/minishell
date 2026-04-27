@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:59:56 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/17 13:48:38 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/27 10:12:16 by darafael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ void	builtin_env(t_shell *shell)
 	current = shell->env;
 	while (current)
 	{
-		printf("%s=%s\n", current->key, current->value);
+		ft_putstr_fd(current->key, 1);
+		write(1, "=", 1);
+		ft_putendl_fd(current->value, 1);
 		current = current->next;
 	}
 }
@@ -54,7 +56,7 @@ void	builtin_pwd(void)
 		perror("Getcwd");
 		return ;
 	}
-	printf("%s\n", pwd);
+	ft_putendl_fd(pwd, 1);
 	free(pwd);
 }
 
@@ -77,7 +79,7 @@ void	builtin_echo(t_cmd *cmd)
 	}
 	while (cmd->argv[i])
 	{
-		printf("%s", cmd->argv[i]);
+		ft_putstr_fd(cmd->argv[i], 1);
 		if (cmd->argv[i + 1])
 			write(1, " ", 1);
 		i++;
@@ -88,7 +90,7 @@ void	builtin_echo(t_cmd *cmd)
 
 void	builtin_exit(t_cmd *cmd, t_shell *shell)
 {
-	printf("exit\n");
+	write(1, "exit\n", 5);
 	if (!cmd->argv[1])
 		exit(shell->exit_status);
 	else if (!ft_isnumeric(cmd->argv[1])
