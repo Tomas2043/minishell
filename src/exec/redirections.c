@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 14:36:56 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/21 10:07:37 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/27 12:11:26 by darafael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	write_heredoc_line(char *line, t_shell *shell, int fd, int quoted)
 	else
 		expanded = ft_strdup(line);
 	write(fd, expanded, ft_strlen(expanded));
-	write(1, "\n", 1);
+	write(fd, "\n", 1);
 	free(expanded);
 	free(line);
 }
