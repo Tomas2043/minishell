@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_helpers.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomas <tomas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 11:46:02 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/17 22:52:59 by tomas            ###   ########.fr       */
+/*   Updated: 2026/04/24 11:48:44 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	child_execute(t_cmd *cmd, char *path, t_shell *shell)
 {
 	char	**env;
 
+	reset_signals();
 	apply_redirections(cmd->redirs, shell);
 	env = env_to_array(shell->env);
 	execve(path, cmd->argv, env);

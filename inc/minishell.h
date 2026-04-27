@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 12:54:08 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/27 10:22:37 by darafael         ###   ########.fr       */
+/*   Updated: 2026/04/27 11:56:00 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# define _POSIX_C_SOURCE 200809L
 # include "../libft/libft.h"
 # include <unistd.h>
 # include <stdio.h>
@@ -84,6 +85,8 @@ typedef struct s_shell
 	int		running;
 }	t_shell;
 
+extern volatile sig_atomic_t	g_signal;
+
 // env_init.c 
 t_env	*init_env(char **envp);
 
@@ -136,6 +139,10 @@ void	execute_pipeline(t_cmd *cmd, t_shell *shell);
 // pipe_helpers.c
 int		count_cmds(t_cmd *cmd);
 void	free_pipes(int **pipes, int count);
+
+// signals.c
+void	setup_signals(void);
+void	reset_signals(void);
 
 size_t	count_tokens(const char *s);
 int		handle_quote(char c, char *q);
