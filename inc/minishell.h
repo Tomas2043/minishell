@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 12:54:08 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/27 11:56:00 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/27 14:24:24 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ void	free_pipes(int **pipes, int count);
 // signals.c
 void	setup_signals(void);
 void	reset_signals(void);
+void	setup_heredoc_signals(void);
 
 size_t	count_tokens(const char *s);
 int		handle_quote(char c, char *q);
