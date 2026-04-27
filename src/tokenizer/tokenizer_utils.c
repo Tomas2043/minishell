@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 09:56:33 by darafael          #+#    #+#             */
-/*   Updated: 2026/04/06 13:33:47 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/27 12:04:35 by darafael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ size_t	word_len(const char *s, size_t i)
 		}
 		else
 		{
-			if (!handle_quote(s[i], &q))
-				len++;
+			handle_quote(s[i], &q);
+			len++;
 			i++;
 		}
 	}

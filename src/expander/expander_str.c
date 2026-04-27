@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_str.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 17:50:37 by darafael          #+#    #+#             */
-/*   Updated: 2026/04/21 10:27:25 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/27 12:04:35 by darafael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,20 +54,22 @@ char	*expand_string(char *str, t_shell *shell)
 	char	*result;
 	int		i;
 	int		sq;
+	int		dq;
 
 	result = ft_strdup("");
 	i = 0;
 	sq = 0;
+	dq = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'' && !sq)
+		if (str[i] == '\'' && !dq)
 		{
-			sq = 1;
+			sq = !sq;
 			i++;
 		}
-		else if (str[i] == '\'' && sq)
+		else if (str[i] == '"' && !sq)
 		{
-			sq = 0;
+			dq = !dq;
 			i++;
 		}
 		else if (str[i] == '$' && !sq && str[i + 1])
