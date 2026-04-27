@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: darafael <darafael@student.42.fr>          +#+  +:+       +#+         #
+#    By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/17 11:50:14 by toandrad          #+#    #+#              #
-#    Updated: 2026/04/27 09:56:41 by darafael         ###   ########.fr        #
+#    Updated: 2026/04/27 11:56:40 by toandrad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,6 +57,7 @@ SRCS = main.c \
 		 parser_cmd.c \
 		 parser_fill.c \
 		 parser_free.c \
+		 signals.c \
 		 
 
 OBJS = $(addprefix $(OBJSDIR)/, $(SRCS:.c=.o))
