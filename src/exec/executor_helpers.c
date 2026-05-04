@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 11:46:02 by toandrad          #+#    #+#             */
-/*   Updated: 2026/05/04 11:22:21 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/05/04 12:46:14 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,26 @@ void	child_execute(t_cmd *cmd, char *path, t_shell *shell)
 	reset_signals();
 	if (apply_redirections(cmd->redirs, shell) == -1)
 		exit(130);
+	env = env_to_array(shell->env);
+	execve(path, cmd->argv, env);
+	perror(path);
+	if (errno == ENOENT)
+		exit(127);
+	exit(126);
+}
+
+void	pipeline_execute_external(t_cmd *cmd, t_shell *shell)
+{
+	char	*path;
+	char	**env;
+
+	reset_signals();
+	path = resolve_path(cmd->argv[0], shell->env);
+	if (!path)
+	{
+		ft_putendl_fd("minishell: command not found", 2);
+		exit(127);
+	}
 	env = env_to_array(shell->env);
 	execve(path, cmd->argv, env);
 	perror(path);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 09:58:09 by darafael          #+#    #+#             */
-/*   Updated: 2026/04/27 11:16:50 by darafael         ###   ########.fr       */
+/*   Updated: 2026/05/04 11:36:56 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_redir	*new_redir(t_redir_type type, char *filename, int quoted)
 		return (NULL);
 	}
 	redir->quoted = quoted;
+	redir->fd = -1;
 	redir->next = NULL;
 	return (redir);
 }

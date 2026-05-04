@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 12:54:08 by toandrad          #+#    #+#             */
-/*   Updated: 2026/05/03 22:31:10 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/05/04 12:38:58 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_redir
 	t_redir_type	type;
 	char			*filename;
 	int				quoted;
+	int				fd;
 	struct s_redir	*next;
 }	t_redir;
 
@@ -141,12 +142,15 @@ void	execute(t_cmd *cmd, t_shell *shell);
 // executor_helpers.c
 void	wait_child(pid_t pid, t_shell *shell);
 void	child_execute(t_cmd *cmd, char *path, t_shell *shell);
+void	pipeline_execute_external(t_cmd *cmd, t_shell *shell);
 
 // pipes.c
 void	execute_pipeline(t_cmd *cmd, t_shell *shell);
 
 // heredoc.c
 int		handle_heredoc(char *delimiter, t_shell *shell, int quoted);
+int		prepare_heredocs(t_cmd *cmd, t_shell *shell);
+void	close_prepared_heredocs(t_cmd *cmd);
 
 // pipe_helpers.c
 int		count_cmds(t_cmd *cmd);

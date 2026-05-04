@@ -51,15 +51,15 @@ int	apply_redirections(t_redir *lst, t_shell *shell)
 	{
 		if (current->type == REDIR_HEREDOC)
 		{
-			fd = handle_heredoc(current->filename, shell, current->quoted);
+			fd = current->fd;
+			if (fd == -1)
+				fd = handle_heredoc(current->filename, shell, current->quoted);
 			if (fd == -1)
 				return (-1);
 			if (dup2(fd, STDIN_FILENO) == -1)
-			{
-				close(fd);
-				return (perror("dup2"), -1);
-			}
+				return (close(fd), perror("dup2"), -1);
 			close(fd);
+			current->fd = -1;
 		}
 		else if (apply_file_redir(current) == -1)
 			return (-1);
