@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 14:52:59 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/16 10:55:54 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/05/03 21:04:04 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,17 @@ void	free_pipes(int **pipes, int count)
 		i++;
 	}
 	free(pipes);
+}
+
+void	close_pipe_fds(int **pipes, int count)
+{
+	int	i;	
+
+	i = 0;
+	while (i < count - 1)
+	{
+		close(pipes[i][0]);
+		close(pipes[i][1]);
+		i++;
+	}
 }

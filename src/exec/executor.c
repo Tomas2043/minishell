@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 13:14:41 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/27 10:55:12 by darafael         ###   ########.fr       */
+/*   Updated: 2026/05/03 19:30:42 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,14 @@ static void	execute_external(t_cmd *cmd, t_shell *shell)
 	}
 }
 
+static void	restore_close(int saved_stdout, int saved_stdin)
+{
+	dup2(saved_stdin, STDIN_FILENO);
+	dup2(saved_stdout, STDOUT_FILENO);
+	close(saved_stdin);
+	close(saved_stdout);
+}
+
 static void	execute_builtin(t_cmd *cmd, t_shell *shell, int builtin)
 {
 	int	saved_stdout;
@@ -48,7 +56,8 @@ static void	execute_builtin(t_cmd *cmd, t_shell *shell, int builtin)
 	saved_stdout = dup(STDOUT_FILENO);
 	saved_stdin = dup(STDIN_FILENO);
 	shell->exit_status = 0;
-	apply_redirections(cmd->redirs, shell);
+	if (apply_redirections(cmd->redirs, shell) == -1)
+		return (restore_close(saved_stdout, saved_stdin));
 	if (builtin == 1)
 		builtin_echo(cmd);
 	else if (builtin == 2)
@@ -63,10 +72,7 @@ static void	execute_builtin(t_cmd *cmd, t_shell *shell, int builtin)
 		builtin_env(shell);
 	else if (builtin == 7)
 		builtin_exit(cmd, shell);
-	dup2(saved_stdin, STDIN_FILENO);
-	dup2(saved_stdout, STDOUT_FILENO);
-	close(saved_stdin);
-	close(saved_stdout);
+	restore_close(saved_stdout, saved_stdin);
 }
 
 void	execute(t_cmd *cmd, t_shell *shell)

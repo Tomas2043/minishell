@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 14:32:00 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/27 10:12:16 by darafael         ###   ########.fr       */
+/*   Updated: 2026/04/27 12:53:56 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,18 @@ static char	*get_cd_path(t_cmd *cmd, t_shell *shell)
 			ft_putendl_fd("minishell: cd: HOME not set", 2);
 			return (NULL);
 		}
-		return (path);
+		return (ft_strdup(path));
 	}
-	return (cmd->argv[1]);
+	else if (ft_strcmp(cmd->argv[1], "-") == 0)
+	{
+		path = get_env(shell->env, "OLDPWD");
+		if (!path)
+			return (ft_putendl_fd("minishell: cd: OLDPWD not set", 2),
+				NULL);
+		printf("%s\n", path);
+		return (ft_strdup(path));
+	}
+	return (ft_strdup(cmd->argv[1]));
 }
 
 void	builtin_cd(t_cmd *cmd, t_shell *shell)
@@ -49,6 +58,7 @@ void	builtin_cd(t_cmd *cmd, t_shell *shell)
 		set_env(&shell->env, "PWD", pwd);
 		free(pwd);
 	}
+	free(path);
 }
 
 static void	export_var(char *arg, t_shell *shell)
