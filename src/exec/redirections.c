@@ -34,10 +34,10 @@ static int	apply_file_redir(t_redir *redir)
 		return (open_and_redirect(redir->filename, O_RDONLY, STDIN_FILENO));
 	if (redir->type == REDIR_OUT)
 		return (open_and_redirect(redir->filename, O_WRONLY | O_CREAT
-			| O_TRUNC, STDOUT_FILENO));
+				| O_TRUNC, STDOUT_FILENO));
 	if (redir->type == REDIR_APPEND)
 		return (open_and_redirect(redir->filename, O_WRONLY | O_CREAT
-			| O_APPEND, STDOUT_FILENO));
+				| O_APPEND, STDOUT_FILENO));
 	return (0);
 }
 

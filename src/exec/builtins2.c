@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 14:32:00 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/27 12:53:56 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/05/04 11:13:18 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ void	builtin_cd(t_cmd *cmd, t_shell *shell)
 	char	*oldpwd;
 	char	*pwd;
 
+	if (cmd->argv[1] && cmd->argv[2])
+		return (ft_putendl_fd("minishell: cd: too many arguments", 2),
+			shell->exit_status = 1, (void)0);
 	path = get_cd_path(cmd, shell);
 	if (!path)
 		return ;
@@ -51,7 +54,10 @@ void	builtin_cd(t_cmd *cmd, t_shell *shell)
 	set_env(&shell->env, "OLDPWD", oldpwd);
 	free(oldpwd);
 	if (chdir(path) == -1)
+	{
 		perror(path);
+		shell->exit_status = 1;
+	}
 	else
 	{
 		pwd = getcwd(NULL, 0);
@@ -79,6 +85,7 @@ static void	export_var(char *arg, t_shell *shell)
 		ft_putstr_fd("minishell: export: '", 2);
 		ft_putstr_fd(key, 2);
 		ft_putendl_fd("': not a valid identifier", 2);
+		shell->exit_status = 1;
 	}
 	free(key);
 	free(value);
@@ -123,6 +130,7 @@ void	builtin_unset(t_cmd *cmd, t_shell *shell)
 			ft_putstr_fd("minishell: unset: '", 2);
 			ft_putstr_fd(cmd->argv[i], 2);
 			ft_putendl_fd("': not a valid identifier", 2);
+			shell->exit_status = 1;
 		}
 		i++;
 	}

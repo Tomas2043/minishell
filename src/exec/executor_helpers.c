@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 11:46:02 by toandrad          #+#    #+#             */
-/*   Updated: 2026/05/03 21:54:36 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/05/04 11:22:21 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,7 @@ void	child_execute(t_cmd *cmd, char *path, t_shell *shell)
 	env = env_to_array(shell->env);
 	execve(path, cmd->argv, env);
 	perror(path);
-	exit(127);
+	if (errno == ENOENT)
+		exit(127);
+	exit(126);
 }
