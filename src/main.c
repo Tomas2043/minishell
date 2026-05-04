@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 13:38:14 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/27 13:25:30 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/05/03 22:08:56 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,11 @@ int	main(int ac, char **av, char **envp)
 	shell.env = init_env(envp);
 	shell.exit_status = 0;
 	shell.running = 1;
+	rl_catch_signals = 0;
 	setup_signals();
 	while (shell.running)
 	{
+		rl_done = 0;
 		line = readline("minishell$ ");
 		if (g_signal == SIGINT)
 		{

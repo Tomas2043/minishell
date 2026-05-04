@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomas <tomas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 14:47:01 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/17 22:53:10 by tomas            ###   ########.fr       */
+/*   Updated: 2026/05/03 21:06:23 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ static void	child_pipeline(t_cmd *current, t_pipe_info *info, t_shell *shell)
 		close(info->pipes[j][1]);
 		j++;
 	}
-	apply_redirections(current->redirs, shell);
+	if (apply_redirections(current->redirs, shell) == -1)
+		exit(130);
 	builtin = is_builtin(current);
 	if (builtin)
 	{
@@ -63,17 +64,13 @@ static void	wait_pipeline(pid_t *pids, int **pipes, int n, t_shell *shell)
 	int	i;
 	int	status;
 
-	i = 0;
-	while (i < n - 1)
-	{
-		close(pipes[i][0]);
-		close(pipes[i][1]);
-		i++;
-	}
+	close_pipe_fds(pipes, n);
 	i = 0;
 	while (i < n)
 	{
+		setup_wait_signals();
 		waitpid(pids[i], &status, 0);
+		setup_signals();
 		if (i == n - 1)
 		{
 			if (WIFEXITED(status))
@@ -83,8 +80,7 @@ static void	wait_pipeline(pid_t *pids, int **pipes, int n, t_shell *shell)
 		}
 		i++;
 	}
-	free(pids);
-	free_pipes(pipes, n - 1);
+	return (free(pids), free_pipes(pipes, n - 1));
 }
 
 static void	fork_pipeline(t_cmd *cmd, int **pipes, int n, t_shell *shell)

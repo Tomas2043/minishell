@@ -6,7 +6,7 @@
 #    By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/17 11:50:14 by toandrad          #+#    #+#              #
-#    Updated: 2026/04/27 11:56:40 by toandrad         ###   ########.fr        #
+#    Updated: 2026/05/03 19:56:26 by toandrad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,8 @@ SRCS = main.c \
 		 parser_fill.c \
 		 parser_free.c \
 		 signals.c \
+		 signals2.c \
+		 heredoc.c \
 		 
 
 OBJS = $(addprefix $(OBJSDIR)/, $(SRCS:.c=.o))

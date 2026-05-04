@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 12:54:08 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/27 14:24:24 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/05/03 22:31:10 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,15 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <termios.h>
+# include <errno.h>
+
+typedef struct s_heredoc
+{
+	int				fd[2];
+	int				saved_stdin;
+	struct termios	saved_term;
+}	t_heredoc;
 
 typedef struct s_pipe_info
 {
@@ -108,7 +117,7 @@ char	*resolve_path(char *command, t_env *lst);
 char	*search_in_paths(char **paths, char *command);
 
 // redirections.c
-void	apply_redirections(t_redir *lst, t_shell *shell);
+int		apply_redirections(t_redir *lst, t_shell *shell);
 
 // builtins.c & builtins2.c
 int		is_builtin(t_cmd *cmd);
@@ -136,14 +145,21 @@ void	child_execute(t_cmd *cmd, char *path, t_shell *shell);
 // pipes.c
 void	execute_pipeline(t_cmd *cmd, t_shell *shell);
 
+// heredoc.c
+int		handle_heredoc(char *delimiter, t_shell *shell, int quoted);
+
 // pipe_helpers.c
 int		count_cmds(t_cmd *cmd);
 void	free_pipes(int **pipes, int count);
+void	close_pipe_fds(int **pipes, int count);
 
-// signals.c
+// signals.c & signals2.c
 void	setup_signals(void);
 void	reset_signals(void);
 void	setup_heredoc_signals(void);
+void	handle_heredoc_sigint(int sig);
+void	handle_wait_sigint(int sig);
+void	setup_wait_signals(void);
 
 size_t	count_tokens(const char *s);
 int		handle_quote(char c, char *q);
