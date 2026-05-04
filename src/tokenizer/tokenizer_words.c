@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_words.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 09:33:36 by darafael          #+#    #+#             */
-/*   Updated: 2026/04/06 13:33:54 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/04/27 12:04:35 by darafael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ static char	*fill_word(const char *s, size_t *i, char *res)
 		}
 		else
 		{
-			if (!handle_quote(s[*i], &q))
-				res[j++] = s[*i];
+			handle_quote(s[*i], &q);
+			res[j++] = s[*i];
 			(*i)++;
 		}
 	}
