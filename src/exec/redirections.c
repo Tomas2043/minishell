@@ -12,18 +12,33 @@
 
 #include "../../inc/minishell.h"
 
-void	open_and_redirect(char *filename, int flags, int target)
+int	open_and_redirect(char *filename, int flags, int target)
 {
 	int	fd;
 
 	fd = open(filename, flags, 0644);
 	if (fd == -1)
+		return (perror(filename), -1);
+	if (dup2(fd, target) == -1)
 	{
-		perror(filename);
-		exit(1);
+		close(fd);
+		return (perror("dup2"), -1);
 	}
-	dup2(fd, target);
 	close(fd);
+	return (0);
+}
+
+static int	apply_file_redir(t_redir *redir)
+{
+	if (redir->type == REDIR_IN)
+		return (open_and_redirect(redir->filename, O_RDONLY, STDIN_FILENO));
+	if (redir->type == REDIR_OUT)
+		return (open_and_redirect(redir->filename, O_WRONLY | O_CREAT
+			| O_TRUNC, STDOUT_FILENO));
+	if (redir->type == REDIR_APPEND)
+		return (open_and_redirect(redir->filename, O_WRONLY | O_CREAT
+			| O_APPEND, STDOUT_FILENO));
+	return (0);
 }
 
 int	apply_redirections(t_redir *lst, t_shell *shell)
@@ -34,22 +49,20 @@ int	apply_redirections(t_redir *lst, t_shell *shell)
 	current = lst;
 	while (current)
 	{
-		if (current->type == REDIR_IN)
-			open_and_redirect(current->filename, O_RDONLY, STDIN_FILENO);
-		else if (current->type == REDIR_OUT)
-			open_and_redirect(current->filename, O_WRONLY | O_CREAT
-				| O_TRUNC, STDOUT_FILENO);
-		else if (current->type == REDIR_APPEND)
-			open_and_redirect(current->filename, O_WRONLY | O_CREAT
-				| O_APPEND, STDOUT_FILENO);
-		else if (current->type == REDIR_HEREDOC)
+		if (current->type == REDIR_HEREDOC)
 		{
 			fd = handle_heredoc(current->filename, shell, current->quoted);
 			if (fd == -1)
 				return (-1);
-			dup2(fd, STDIN_FILENO);
+			if (dup2(fd, STDIN_FILENO) == -1)
+			{
+				close(fd);
+				return (perror("dup2"), -1);
+			}
 			close(fd);
 		}
+		else if (apply_file_redir(current) == -1)
+			return (-1);
 		current = current->next;
 	}
 	return (0);
