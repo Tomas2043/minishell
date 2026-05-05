@@ -179,7 +179,6 @@ int		check_syntax(t_token *tokens);
 t_token	*build_token_list(char **split);
 
 char	*expand_string(char *str, t_shell *shell);
-void	expand_tokens(t_token *tokens, t_shell *shell);
 void	expand_all(t_cmd *cmds, t_shell *shell);
 char	*get_var(char *str, int *skip);
 char	*expand_var(char *str, int *i, t_shell *shell);
