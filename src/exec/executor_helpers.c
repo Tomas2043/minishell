@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 11:46:02 by toandrad          #+#    #+#             */
-/*   Updated: 2026/05/04 12:46:14 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/05/06 19:57:06 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	child_execute(t_cmd *cmd, char *path, t_shell *shell)
 
 	reset_signals();
 	if (apply_redirections(cmd->redirs, shell) == -1)
-		exit(130);
+		exit(1);
 	env = env_to_array(shell->env);
 	execve(path, cmd->argv, env);
 	perror(path);

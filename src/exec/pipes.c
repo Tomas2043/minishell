@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 14:47:01 by toandrad          #+#    #+#             */
-/*   Updated: 2026/05/04 12:50:53 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/05/06 19:57:18 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	child_pipeline(t_cmd *current, t_pipe_info *info, t_shell *shell)
 		j++;
 	}
 	if (apply_redirections(current->redirs, shell) == -1)
-		exit(130);
+		exit(1);
 	if (!current->argv || !current->argv[0])
 		exit(0);
 	builtin = is_builtin(current);
