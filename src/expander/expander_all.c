@@ -38,24 +38,6 @@ char	*expand_var(char *str, int *i, t_shell *shell)
 	return (expanded);
 }
 
-void	expand_tokens(t_token *tokens, t_shell *shell)
-{
-	t_token	*current;
-	char	*expanded;
-
-	current = tokens;
-	while (current)
-	{
-		if (current->type == TOK_WORD)
-		{
-			expanded = expand_string(current->value, shell);
-			free(current->value);
-			current->value = expanded;
-		}
-		current = current->next;
-	}
-}
-
 static void	expand_argv(t_cmd *cmd, t_shell *shell)
 {
 	char	*expanded;
@@ -79,9 +61,12 @@ static void	expand_redirs(t_redir *redirs, t_shell *shell)
 	current = redirs;
 	while (current)
 	{
-		expanded = expand_string(current->filename, shell);
-		free(current->filename);
-		current->filename = expanded;
+		if (current->type != REDIR_HEREDOC)
+		{
+			expanded = expand_string(current->filename, shell);
+			free(current->filename);
+			current->filename = expanded;
+		}
 		current = current->next;
 	}
 }

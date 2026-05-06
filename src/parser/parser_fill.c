@@ -12,20 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-static int	is_redir_tok(t_token_type type)
-{
-	if (type == TOK_REDIR_IN)
-		return (1);
-	if (type == TOK_REDIR_OUT)
-		return (1);
-	if (type == TOK_APPEND)
-		return (1);
-	if (type == TOK_HEREDOC)
-		return (1);
-	return (0);
-}
-
-static t_redir_type	tok_to_redir(t_token_type type)
+static int	get_redir_type(t_token_type type)
 {
 	if (type == TOK_REDIR_IN)
 		return (REDIR_IN);
@@ -33,7 +20,30 @@ static t_redir_type	tok_to_redir(t_token_type type)
 		return (REDIR_OUT);
 	if (type == TOK_APPEND)
 		return (REDIR_APPEND);
-	return (REDIR_HEREDOC);
+	if (type == TOK_HEREDOC)
+		return (REDIR_HEREDOC);
+	return (-1);
+}
+
+static char	*strip_quotes(char *s)
+{
+	char	*result;
+	int		i;
+	int		j;
+
+	result = malloc(ft_strlen(s) + 1);
+	if (!result)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s[i])
+	{
+		if (s[i] != '\'' && s[i] != '"' && s[i] != '\\')
+			result[j++] = s[i];
+		i++;
+	}
+	result[j] = '\0';
+	return (result);
 }
 
 static int	count_cmd_words(t_token *tok)
@@ -43,7 +53,7 @@ static int	count_cmd_words(t_token *tok)
 	count = 0;
 	while (tok && tok->type != TOK_PIPE)
 	{
-		if (is_redir_tok(tok->type))
+		if (get_redir_type(tok->type) != -1)
 		{
 			tok = tok->next;
 			if (tok)
@@ -62,12 +72,25 @@ static int	parse_redir(t_cmd *cmd, t_token **tok)
 {
 	t_redir_type	type;
 	t_redir			*redir;
+	char			*filename;
+	int				quoted;
 
-	type = tok_to_redir((*tok)->type);
+	type = (t_redir_type)get_redir_type((*tok)->type);
 	*tok = (*tok)->next;
 	if (!*tok)
 		return (0);
-	redir = new_redir(type, (*tok)->value, 0);
+	quoted = (type == REDIR_HEREDOC
+			&& (ft_strchr((*tok)->value, '\'')
+				|| ft_strchr((*tok)->value, '"')
+				|| ft_strchr((*tok)->value, '\\')));
+	if (type == REDIR_HEREDOC)
+		filename = strip_quotes((*tok)->value);
+	else
+		filename = ft_strdup((*tok)->value);
+	if (!filename)
+		return (0);
+	redir = new_redir(type, filename, quoted);
+	free(filename);
 	if (!redir)
 		return (0);
 	redir_add_back(&cmd->redirs, redir);
@@ -87,7 +110,7 @@ int	fill_cmd(t_cmd *cmd, t_token **tok)
 	i = 0;
 	while (*tok && (*tok)->type != TOK_PIPE)
 	{
-		if (is_redir_tok((*tok)->type))
+		if (get_redir_type((*tok)->type) != -1)
 		{
 			if (!parse_redir(cmd, tok))
 				return (0);
