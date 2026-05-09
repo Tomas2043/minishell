@@ -22,6 +22,8 @@ char	*expand_var(char *str, int *i, t_shell *shell)
 	if (str[*i + 1] == '?')
 		return ((*i) += 2, ft_itoa(shell->exit_status));
 	var_name = get_var(&str[*i + 1], &skip);
+	if (!var_name)
+		return (NULL);
 	if (skip == 0)
 	{
 		free(var_name);
@@ -47,6 +49,8 @@ static void	expand_argv(t_cmd *cmd, t_shell *shell)
 	while (cmd->argv[i])
 	{
 		expanded = expand_string(cmd->argv[i], shell);
+		if (!expanded)
+			return ;
 		free(cmd->argv[i]);
 		cmd->argv[i] = expanded;
 		i++;
@@ -64,6 +68,8 @@ static void	expand_redirs(t_redir *redirs, t_shell *shell)
 		if (current->type != REDIR_HEREDOC)
 		{
 			expanded = expand_string(current->filename, shell);
+			if (!expanded)
+				return ;
 			free(current->filename);
 			current->filename = expanded;
 		}

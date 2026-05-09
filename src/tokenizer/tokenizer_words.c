@@ -24,6 +24,7 @@ static char	*fill_word(const char *s, size_t *i, char *res)
 		if (s[*i] == '\\' && q == '"' && s[*i + 1]
 			&& escapable_quote(s[*i + 1]))
 		{
+			res[j++] = s[*i];
 			res[j++] = s[*i + 1];
 			(*i) += 2;
 		}
