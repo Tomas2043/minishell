@@ -70,7 +70,7 @@ size_t	word_len(const char *s, size_t i)
 	{
 		if (s[i] == '\\' && q == '"' && s[i + 1] && escapable_quote(s[i + 1]))
 		{
-			len++;
+			len += 2;
 			i += 2;
 		}
 		else

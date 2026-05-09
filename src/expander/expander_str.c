@@ -43,10 +43,23 @@ static char	*handle_dollar(char *str, char *result, int *i, t_shell *shell)
 	char	*tmp;
 
 	expanded = expand_var(str, i, shell);
+	if (!expanded)
+	{
+		free(result);
+		return (NULL);
+	}
 	tmp = ft_strjoin(result, expanded);
 	free(result);
 	free(expanded);
 	return (tmp);
+}
+
+static char	*handle_escape_dq(char *str, char *result, int *i)
+{
+	(*i)++;
+	result = append_char(result, str[*i]);
+	(*i)++;
+	return (result);
 }
 
 char	*expand_string(char *str, t_shell *shell)
@@ -60,7 +73,7 @@ char	*expand_string(char *str, t_shell *shell)
 	i = 0;
 	sq = 0;
 	dq = 0;
-	while (str[i])
+	while (str[i] && result)
 	{
 		if (str[i] == '\'' && !dq)
 		{
@@ -72,6 +85,8 @@ char	*expand_string(char *str, t_shell *shell)
 			dq = !dq;
 			i++;
 		}
+		else if (str[i] == '\\' && dq && str[i + 1] && escapable_quote(str[i + 1]))
+			result = handle_escape_dq(str, result, &i);
 		else if (str[i] == '$' && !sq && str[i + 1])
 			result = handle_dollar(str, result, &i, shell);
 		else
