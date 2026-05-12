@@ -45,7 +45,11 @@ static void	handle_line(char *line, t_shell *shell)
 
 	tokens = tokenize_input(line);
 	if (!tokens)
+	{
+		ft_putendl_fd("minishell: syntax error: unclosed quote", 2);
+		shell->exit_status = 2;
 		return ;
+	}
 	if (!check_syntax(tokens))
 	{
 		ft_putendl_fd("minishell: syntax error near unexpected token", 2);

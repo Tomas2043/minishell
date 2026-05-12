@@ -38,9 +38,15 @@ static char	*strip_quotes(char *s)
 	j = 0;
 	while (s[i])
 	{
-		if (s[i] != '\'' && s[i] != '"' && s[i] != '\\')
-			result[j++] = s[i];
-		i++;
+		if (s[i] == '\\' && s[i + 1])
+		{
+			result[j++] = s[i + 1];
+			i += 2;
+		}
+		else if (s[i] != '\'' && s[i] != '"')
+			result[j++] = s[i++];
+		else
+			i++;
 	}
 	result[j] = '\0';
 	return (result);
