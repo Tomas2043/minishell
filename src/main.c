@@ -66,9 +66,34 @@ static void	handle_line(char *line, t_shell *shell)
 	free_cmd_list(cmds);
 }
 
-int	main(int ac, char **av, char **envp)
+static void	shell_run_loop(t_shell *shell)
 {
 	char	*line;
+
+	rl_done = 0;
+	line = readline("minishell$ ");
+	if (g_signal == SIGINT)
+	{
+		shell->exit_status = 130;
+		g_signal = 0;
+	}
+	if (!line)
+	{
+		write(1, "exit\n", 5);
+		rl_clear_history();
+		shell->running = 0;
+		return ;
+	}
+	if (*line)
+	{
+		add_history(line);
+		handle_line(line, shell);
+	}
+	free(line);
+}
+
+int	main(int ac, char **av, char **envp)
+{
 	t_shell	shell;
 
 	(void)ac;
@@ -79,27 +104,7 @@ int	main(int ac, char **av, char **envp)
 	rl_catch_signals = 0;
 	setup_signals();
 	while (shell.running)
-	{
-		rl_done = 0;
-		line = readline("minishell$ ");
-		if (g_signal == SIGINT)
-		{
-			shell.exit_status = 130;
-			g_signal = 0;
-		}
-		if (!line)
-		{
-			write(1, "exit\n", 5);
-			rl_clear_history();
-			break ;
-		}
-		if (*line)
-		{
-			add_history(line);
-			handle_line(line, &shell);
-		}
-		free(line);
-	}
+		shell_run_loop(&shell);
 	free_list(shell.env);
 	return (0);
 }

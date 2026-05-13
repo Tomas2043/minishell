@@ -54,6 +54,8 @@ SRCS = main.c \
 		 builtins_utils.c \
 		 expander_all.c \
 		 expander_str.c \
+		 expander_char.c \
+		 expander_wl.c \
 		 parser_cmd.c \
 		 parser_fill.c \
 		 parser_free.c \
