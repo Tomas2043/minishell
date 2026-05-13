@@ -1,14 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   expander_str.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/07 17:50:37 by darafael          #+#    #+#             */
-/*   Updated: 2026/04/27 12:04:35 by darafael         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "../../inc/minishell.h"
 
@@ -25,72 +15,58 @@ char	*get_var(char *str, int *skip)
 	return (name);
 }
 
-static char	*append_char(char *result, char c)
+static char	*es_dollar(char *str, int *i, t_es *s, t_shell *shell)
 {
-	char	buf[2];
+	char	*exp;
 	char	*tmp;
 
-	buf[0] = c;
-	buf[1] = '\0';
-	tmp = ft_strjoin(result, buf);
-	free(result);
-	return (tmp);
-}
-
-static char	*handle_dollar(char *str, char *result, int *i, t_shell *shell)
-{
-	char	*expanded;
-	char	*tmp;
-
-	expanded = expand_var(str, i, shell);
-	if (!expanded)
+	exp = expand_var(str, i, shell);
+	if (!exp)
 	{
-		free(result);
+		free(s->result);
 		return (NULL);
 	}
-	tmp = ft_strjoin(result, expanded);
-	free(result);
-	free(expanded);
+	tmp = ft_strjoin(s->result, exp);
+	free(s->result);
+	free(exp);
 	return (tmp);
 }
 
-static char	*handle_escape_dq(char *str, char *result, int *i)
+static void	es_char(char *str, int *i, t_es *s, t_shell *shell)
 {
-	(*i)++;
-	result = append_char(result, str[*i]);
-	(*i)++;
-	return (result);
+	if (str[*i] == '\'' && !s->dq)
+	{
+		s->sq = !s->sq;
+		(*i)++;
+	}
+	else if (str[*i] == '"' && !s->sq)
+	{
+		s->dq = !s->dq;
+		(*i)++;
+	}
+	else if (str[*i] == '\\' && s->dq && str[*i + 1] && escapable_quote(str[*i + 1]))
+	{
+		(*i)++;
+		s->result = wl_append(s->result, str[(*i)++]);
+	}
+	else if (str[*i] == '$' && !s->sq && str[*i + 1])
+		s->result = es_dollar(str, i, s, shell);
+	else
+		s->result = wl_append(s->result, str[(*i)++]);
 }
 
 char	*expand_string(char *str, t_shell *shell)
 {
-	char	*result;
+	t_es	s;
 	int		i;
-	int		sq;
-	int		dq;
 
-	result = ft_strdup("");
+	s.result = ft_strdup("");
+	s.sq = 0;
+	s.dq = 0;
+	if (!s.result)
+		return (NULL);
 	i = 0;
-	sq = 0;
-	dq = 0;
-	while (str[i] && result)
-	{
-		if (str[i] == '\'' && !dq)
-		{
-			sq = !sq;
-			i++;
-		}
-		else if (str[i] == '"' && !sq)
-		{
-			dq = !dq;
-			i++;
-		}
-		else if (str[i] == '\\' && dq && str[i + 1] && escapable_quote(str[i + 1]))
-			result = handle_escape_dq(str, result, &i);
-		else if (str[i] == '$' && !sq && str[i + 1])
-			result = handle_dollar(str, result, &i, shell);
-		else
-			result = append_char(result, str[i++]);
-	}
-	return (result);
+	while (str[i] && s.result)
+		es_char(str, &i, &s, shell);
+	return (s.result);
 }
