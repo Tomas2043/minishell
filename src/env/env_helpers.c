@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 13:22:45 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/27 12:35:55 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/05/12 20:48:01 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char	**env_to_array(t_env *lst)
 	int		i;
 
 	env_size = count_env_size(lst);
-	result = malloc(sizeof(char **) * (env_size + 1));
+	result = malloc(sizeof(char *) * (env_size + 1));
 	i = 0;
 	current = lst;
 	while (current)

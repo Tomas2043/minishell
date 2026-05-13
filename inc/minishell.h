@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 12:54:08 by toandrad          #+#    #+#             */
-/*   Updated: 2026/05/04 12:38:58 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/05/13 19:26:59 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ int		is_n_flag(char *str);
 int		is_valid_identifier(char *str);
 void	sort_env_array(char **array, int size);
 char	**env_to_declare_array(t_env *lst);
+void	print_export_err(char *name, t_shell *shell);
 
 // executor.c
 void	execute(t_cmd *cmd, t_shell *shell);

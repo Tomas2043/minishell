@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 14:47:01 by toandrad          #+#    #+#             */
-/*   Updated: 2026/05/06 19:57:18 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/05/13 19:37:21 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,11 @@ static void	wait_pipeline(pid_t *pids, int **pipes, int n, t_shell *shell)
 	while (i < n)
 	{
 		setup_wait_signals();
-		waitpid(pids[i], &status, 0);
+		while (waitpid(pids[i], &status, 0) == -1)
+		{
+			if (errno != EINTR)
+				break ;
+		}
 		setup_signals();
 		if (i == n - 1)
 		{

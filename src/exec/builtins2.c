@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 14:32:00 by toandrad          #+#    #+#             */
-/*   Updated: 2026/05/04 11:13:18 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/05/13 19:27:58 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,18 +75,17 @@ static void	export_var(char *arg, t_shell *shell)
 
 	eq = ft_strchr(arg, '=');
 	if (!eq)
+	{
+		if (!is_valid_identifier(arg))
+			print_export_err(arg, shell);
 		return ;
+	}
 	key = ft_substr(arg, 0, eq - arg);
 	value = ft_strdup(eq + 1);
 	if (is_valid_identifier(key))
 		set_env(&shell->env, key, value);
 	else
-	{
-		ft_putstr_fd("minishell: export: '", 2);
-		ft_putstr_fd(key, 2);
-		ft_putendl_fd("': not a valid identifier", 2);
-		shell->exit_status = 1;
-	}
+		print_export_err(key, shell);
 	free(key);
 	free(value);
 }

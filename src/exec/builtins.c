@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
+/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:59:56 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/27 10:12:16 by darafael         ###   ########.fr       */
+/*   Updated: 2026/05/13 18:24:13 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ void	builtin_echo(t_cmd *cmd)
 		write(1, "\n", 1);
 		return ;
 	}
-	if (is_n_flag(cmd->argv[1]))
+	while (cmd->argv[i] && is_n_flag(cmd->argv[i]))
 	{
 		newline = 0;
-		i = 2;
+		i++;
 	}
 	while (cmd->argv[i])
 	{
@@ -90,21 +90,29 @@ void	builtin_echo(t_cmd *cmd)
 
 void	builtin_exit(t_cmd *cmd, t_shell *shell)
 {
+	int	len;
+	int	sign;
+
 	write(1, "exit\n", 5);
 	if (!cmd->argv[1])
 		exit(shell->exit_status);
-	else if (!ft_isnumeric(cmd->argv[1])
-		|| ft_strlen(cmd->argv[1]) - (cmd->argv[1][0] == '-') > 19)
-	{
-		ft_putendl_fd("minishell: exit: numeric argument required", 2);
-		exit(255);
-	}
-	else if (cmd->argv[2] != NULL)
-	{
-		ft_putendl_fd("minishell: exit: too many arguments", 2);
-		shell->exit_status = 1;
-		return ;
-	}
 	else
-		exit(ft_atoi(cmd->argv[1]));
+	{
+		len = ft_strlen(cmd->argv[1]);
+		sign = (cmd->argv[1][0] == '-');
+		if (!ft_isnumeric(cmd->argv[1]) || (len - sign) > 19
+			|| ((len - sign) == 19
+				&& ft_strcmp(cmd->argv[1] + sign, "9223372036854775807") > 0))
+		{
+			ft_putendl_fd("minishell: exit: numeric argument required", 2);
+			exit(255);
+		}
+		else if (cmd->argv[2] != NULL)
+		{
+			ft_putendl_fd("minishell: exit: too many arguments", 2);
+			return (shell->exit_status = 1, (void)0);
+		}
+		else
+			exit(ft_atoi(cmd->argv[1]));
+	}
 }
