@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander_all.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/07 18:03:44 by darafael          #+#    #+#             */
+/*   Updated: 2026/04/21 10:29:34 by toandrad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
@@ -8,6 +18,7 @@ char	*expand_var(char *str, int *i, t_shell *shell)
 	char	*var_value;
 	char	*expanded;
 	int		skip;
+
 	if (str[*i + 1] == '?')
 		return ((*i) += 2, ft_itoa(shell->exit_status));
 	var_name = get_var(&str[*i + 1], &skip);
@@ -29,52 +40,21 @@ char	*expand_var(char *str, int *i, t_shell *shell)
 	return (expanded);
 }
 
-static char	**build_new_argv(t_cmd *cmd, int total, t_shell *shell)
-{
-	char	**new_argv;
-	char	**wl;
-	int		i;
-	int		j;
-	int		k;
-
-	new_argv = malloc(sizeof(char *) * (total + 1));
-	if (!new_argv)
-		return (NULL);
-	new_argv[total] = NULL;
-	i = 0;
-	k = 0;
-	while (cmd->argv[i])
-	{
-		wl = expand_to_wordlist(cmd->argv[i++], shell);
-		if (!wl)
-			return (free(new_argv), NULL);
-		j = 0;
-		while (wl[j])
-			new_argv[k++] = wl[j++];
-		free(wl);
-	}
-	return (new_argv);
-}
-
 static void	expand_argv(t_cmd *cmd, t_shell *shell)
 {
-	char	**new_argv;
-	char	**old;
-	int		total;
+	char	*expanded;
 	int		i;
 
-	total = expand_argv_count(cmd, shell);
-	if (total == -1)
-		return ;
-	new_argv = build_new_argv(cmd, total, shell);
-	if (!new_argv)
-		return ;
-	old = cmd->argv;
 	i = 0;
-	while (old[i])
-		free(old[i++]);
-	free(old);
-	cmd->argv = new_argv;
+	while (cmd->argv[i])
+	{
+		expanded = expand_string(cmd->argv[i], shell);
+		if (!expanded)
+			return ;
+		free(cmd->argv[i]);
+		cmd->argv[i] = expanded;
+		i++;
+	}
 }
 
 static void	expand_redirs(t_redir *redirs, t_shell *shell)

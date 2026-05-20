@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 11:31:36 by toandrad          #+#    #+#             */
-/*   Updated: 2026/04/17 13:59:20 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/05/13 19:26:46 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char	**env_to_declare_array(t_env *lst)
 	int		i;
 
 	env_size = count_env_size(lst);
-	res = malloc(sizeof(char **) * (env_size + 1));
+	res = malloc(sizeof(char *) * (env_size + 1));
 	i = 0;
 	current = lst;
 	while (current)
@@ -102,4 +102,12 @@ char	**env_to_declare_array(t_env *lst)
 	}
 	res[env_size] = NULL;
 	return (res);
+}
+
+void	print_export_err(char *name, t_shell *shell)
+{
+	ft_putstr_fd("minishell: export: '", 2);
+	ft_putstr_fd(name, 2);
+	ft_putendl_fd("': not a valid identifier", 2);
+	shell->exit_status = 1;
 }

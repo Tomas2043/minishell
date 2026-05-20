@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_cmd.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/27 09:58:09 by darafael          #+#    #+#             */
+/*   Updated: 2026/05/20 10:05:45 by toandrad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
@@ -30,6 +40,7 @@ t_redir	*new_redir(t_redir_type type, char *filename, int quoted)
 		return (NULL);
 	}
 	redir->quoted = quoted;
+	redir->fd = -1;
 	redir->next = NULL;
 	return (redir);
 }

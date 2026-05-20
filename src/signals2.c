@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 19:34:44 by toandrad          #+#    #+#             */
-/*   Updated: 2026/05/03 23:03:54 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/05/06 20:00:59 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	handle_wait_sigint(int sig)
 {
 	(void)sig;
+	write(1, "\n", 1);
 }
 
 void	setup_wait_signals(void)

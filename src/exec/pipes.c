@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 14:47:01 by toandrad          #+#    #+#             */
-/*   Updated: 2026/05/03 21:06:23 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/05/13 19:37:21 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,15 @@ static void	child_pipeline(t_cmd *current, t_pipe_info *info, t_shell *shell)
 		j++;
 	}
 	if (apply_redirections(current->redirs, shell) == -1)
-		exit(130);
+		exit(1);
+	if (!current->argv || !current->argv[0])
+		exit(0);
 	builtin = is_builtin(current);
 	if (builtin)
-	{
-		run_builtin(current, shell, builtin);
-		exit(shell->exit_status);
-	}
+		return (run_builtin(current, shell, builtin), exit(shell->exit_status),
+			(void)0);
 	else
-		child_execute(current, resolve_path(current->argv[0], shell->env),
-			shell);
+		pipeline_execute_external(current, shell);
 }
 
 static void	wait_pipeline(pid_t *pids, int **pipes, int n, t_shell *shell)
@@ -69,7 +68,11 @@ static void	wait_pipeline(pid_t *pids, int **pipes, int n, t_shell *shell)
 	while (i < n)
 	{
 		setup_wait_signals();
-		waitpid(pids[i], &status, 0);
+		while (waitpid(pids[i], &status, 0) == -1)
+		{
+			if (errno != EINTR)
+				break ;
+		}
 		setup_signals();
 		if (i == n - 1)
 		{
@@ -117,19 +120,22 @@ void	execute_pipeline(t_cmd *cmd, t_shell *shell)
 	int	n;
 	int	i;
 
+	if (prepare_heredocs(cmd, shell) == -1)
+		return ;
 	n = count_cmds(cmd);
 	pipes = malloc(sizeof(int *) * (n - 1));
 	if (!pipes)
-		return ;
+		return (close_prepared_heredocs(cmd));
 	i = 0;
 	while (i < n - 1)
 	{
 		pipes[i] = malloc(sizeof(int) * 2);
 		if (!pipes[i])
-			return (free_pipes(pipes, i));
+			return (free_pipes(pipes, i), close_prepared_heredocs(cmd));
 		if (pipe(pipes[i]) == -1)
-			return (free_pipes(pipes, i + 1));
+			return (free_pipes(pipes, i + 1), close_prepared_heredocs(cmd));
 		i++;
 	}
 	fork_pipeline(cmd, pipes, n, shell);
+	close_prepared_heredocs(cmd);
 }
