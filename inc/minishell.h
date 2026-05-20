@@ -95,6 +95,23 @@ typedef struct s_shell
 	int		running;
 }	t_shell;
 
+typedef struct s_es
+{
+	char	*result;
+	int		sq;
+	int		dq;
+}	t_es;
+
+typedef struct s_wlst
+{
+	char	**words;
+	char	*cur;
+	int		n;
+	int		sq;
+	int		dq;
+	int		ws;
+}	t_wlst;
+
 extern volatile sig_atomic_t	g_signal;
 
 // env_init.c 
@@ -157,6 +174,7 @@ void	close_prepared_heredocs(t_cmd *cmd);
 int		count_cmds(t_cmd *cmd);
 void	free_pipes(int **pipes, int count);
 void	close_pipe_fds(int **pipes, int count);
+void	setup_child_io(t_pipe_info *info);
 
 // signals.c & signals2.c
 void	setup_signals(void);
@@ -187,6 +205,12 @@ char	*expand_string(char *str, t_shell *shell);
 void	expand_all(t_cmd *cmds, t_shell *shell);
 char	*get_var(char *str, int *skip);
 char	*expand_var(char *str, int *i, t_shell *shell);
+char	**expand_to_wordlist(char *str, t_shell *shell);
+int		expand_argv_count(t_cmd *cmd, t_shell *shell);
+int		wl_init(t_wlst *s);
+char	*wl_append(char *s, char c);
+int		wl_add(t_wlst *s);
+int		wl_dollar(char *str, int *i, t_wlst *s, t_shell *shell);
 
 t_redir	*new_redir(t_redir_type type, char *filename, int quoted);
 void	redir_add_back(t_redir **head, t_redir *node);

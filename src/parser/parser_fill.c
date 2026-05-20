@@ -1,14 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parser_fill.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/27 09:58:21 by darafael          #+#    #+#             */
-/*   Updated: 2026/04/27 09:58:24 by darafael         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "../../inc/minishell.h"
 
@@ -85,10 +75,8 @@ static int	parse_redir(t_cmd *cmd, t_token **tok)
 	*tok = (*tok)->next;
 	if (!*tok)
 		return (0);
-	quoted = (type == REDIR_HEREDOC
-			&& (ft_strchr((*tok)->value, '\'')
-				|| ft_strchr((*tok)->value, '"')
-				|| ft_strchr((*tok)->value, '\\')));
+	quoted = (type == REDIR_HEREDOC && (ft_strchr((*tok)->value, '\'')
+			|| ft_strchr((*tok)->value, '"') || ft_strchr((*tok)->value, '\\')));
 	if (type == REDIR_HEREDOC)
 		filename = strip_quotes((*tok)->value);
 	else
