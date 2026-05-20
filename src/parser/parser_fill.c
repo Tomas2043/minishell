@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/20 10:51:47 by toandrad          #+#    #+#             */
-/*   Updated: 2026/05/20 10:51:51 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/05/20 11:20:04 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ static int	parse_redir(t_cmd *cmd, t_token **tok)
 	if (!*tok)
 		return (0);
 	quoted = (type == REDIR_HEREDOC && (ft_strchr((*tok)->value, '\'')
-			|| ft_strchr((*tok)->value, '"') || ft_strchr((*tok)->value, '\\')));
+				|| ft_strchr((*tok)->value, '"')
+				|| ft_strchr((*tok)->value, '\\')));
 	if (type == REDIR_HEREDOC)
 		filename = strip_quotes((*tok)->value);
 	else

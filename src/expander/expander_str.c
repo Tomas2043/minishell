@@ -75,17 +75,10 @@ char	*expand_string(char *str, t_shell *shell)
 	dq = 0;
 	while (str[i] && result)
 	{
-		if (str[i] == '\'' && !dq)
-		{
-			sq = !sq;
+		if (update_quote_state(str[i], &sq, &dq))
 			i++;
-		}
-		else if (str[i] == '"' && !sq)
-		{
-			dq = !dq;
-			i++;
-		}
-		else if (str[i] == '\\' && dq && str[i + 1] && escapable_quote(str[i + 1]))
+		else if (str[i] == '\\' && dq && str[i + 1]
+			&& escapable_quote(str[i + 1]))
 			result = handle_escape_dq(str, result, &i);
 		else if (str[i] == '$' && !sq && str[i + 1])
 			result = handle_dollar(str, result, &i, shell);
