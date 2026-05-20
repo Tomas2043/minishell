@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 13:38:14 by toandrad          #+#    #+#             */
-/*   Updated: 2026/05/03 22:08:56 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/05/20 15:10:42 by darafael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,20 @@ static void	handle_line(char *line, t_shell *shell)
 {
 	t_token	*tokens;
 	t_cmd	*cmds;
+	size_t	i;
 
+	i = 0;
+	while (line[i] && is_space(line[i]))
+		i++;
+	if (!line[i])
+		return ;
 	tokens = tokenize_input(line);
 	if (!tokens)
-	{
-		ft_putendl_fd("minishell: syntax error: unclosed quote", 2);
-		shell->exit_status = 2;
-		return ;
-	}
+		return (ft_putendl_fd("minishell: syntax error: unclosed quote", 2),
+			(void)(shell->exit_status = 2));
 	if (!check_syntax(tokens))
-	{
-		ft_putendl_fd("minishell: syntax error near unexpected token", 2);
-		shell->exit_status = 2;
-		free_tokens(tokens);
-		return ;
-	}
+		return (ft_putendl_fd("minishell: syntax error near unexpected token",
+				2), shell->exit_status = 2, free_tokens(tokens));
 	cmds = parse_tokens(tokens);
 	free_tokens(tokens);
 	if (!cmds)

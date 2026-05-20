@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 13:14:41 by toandrad          #+#    #+#             */
-/*   Updated: 2026/05/06 19:55:31 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/05/20 15:21:04 by darafael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,15 @@ static void	execute_external(t_cmd *cmd, t_shell *shell)
 	path = resolve_path(cmd->argv[0], shell->env);
 	if (path == NULL)
 	{
-		ft_putendl_fd("minishell: command not found", 2);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd->argv[0], 2);
+		ft_putendl_fd(": command not found", 2);
 		shell->exit_status = 127;
 		return ;
 	}
 	pid = fork();
 	if (pid == -1)
-	{
-		free(path);
-		perror("Fork");
-		return ;
-	}
+		return (free(path), perror("Fork"));
 	else if (pid == 0)
 		child_execute(cmd, path, shell);
 	else
@@ -104,6 +102,12 @@ void	execute(t_cmd *cmd, t_shell *shell)
 	if (!cmd->argv || !cmd->argv[0])
 	{
 		execute_empty_command(cmd, shell);
+		return ;
+	}
+	if (cmd->argv[0][0] == '\0')
+	{
+		ft_putendl_fd("minishell: command not found", 2);
+		shell->exit_status = 127;
 		return ;
 	}
 	builtin = is_builtin(cmd);

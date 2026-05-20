@@ -42,6 +42,8 @@ char	*resolve_path(char *command, t_env *lst)
 	char	**paths;
 	char	*path;
 
+	if (!command || command[0] == '\0')
+		return (NULL);
 	if (ft_strchr(command, '/'))
 	{
 		if (access(command, X_OK) == 0)

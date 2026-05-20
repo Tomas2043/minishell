@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_helpers.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 11:46:02 by toandrad          #+#    #+#             */
-/*   Updated: 2026/05/06 19:57:06 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/05/20 14:49:17 by darafael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ void	pipeline_execute_external(t_cmd *cmd, t_shell *shell)
 	path = resolve_path(cmd->argv[0], shell->env);
 	if (!path)
 	{
-		ft_putendl_fd("minishell: command not found", 2);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd->argv[0], 2);
+		ft_putendl_fd(": command not found", 2);
 		exit(127);
 	}
 	env = env_to_array(shell->env);
