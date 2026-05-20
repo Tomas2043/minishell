@@ -6,7 +6,7 @@
 #    By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/17 11:50:14 by toandrad          #+#    #+#              #
-#    Updated: 2026/05/04 12:34:17 by toandrad         ###   ########.fr        #
+#    Updated: 2026/05/20 11:27:22 by toandrad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,7 @@ SRCS = main.c \
 		 builtins_utils.c \
 		 expander_all.c \
 		 expander_str.c \
+		 expander_utils.c \
 		 parser_cmd.c \
 		 parser_fill.c \
 		 parser_free.c \

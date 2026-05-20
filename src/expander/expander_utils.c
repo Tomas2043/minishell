@@ -1,36 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_init.c                                         :+:      :+:    :+:   */
+/*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/26 11:51:55 by toandrad          #+#    #+#             */
-/*   Updated: 2026/05/20 10:27:47 by toandrad         ###   ########.fr       */
+/*   Created: 2026/05/20 11:21:07 by toandrad          #+#    #+#             */
+/*   Updated: 2026/05/20 11:26:12 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-t_env	*init_env(char **envp)
+int	update_quote_state(char c, int *sq, int *dq)
 {
-	int		i;
-	char	*eq;
-	char	*key;
-	char	*value;
-	t_env	*head;
-
-	head = NULL;
-	i = 0;
-	while (envp[i])
+	if (c == '\'' && !*dq)
 	{
-		eq = ft_strchr(envp[i], '=');
-		key = ft_substr(envp[i], 0, eq - envp[i]);
-		value = ft_strdup(eq + 1);
-		env_add_back(&head, new_env_node(key, value));
-		free(key);
-		free(value);
-		i++;
+		*sq = !*sq;
+		return (1);
 	}
-	return (head);
+	if (c == '"' && !*sq)
+	{
+		*dq = !*dq;
+		return (1);
+	}
+	return (0);
 }

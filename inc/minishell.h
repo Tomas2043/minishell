@@ -6,7 +6,7 @@
 /*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 12:54:08 by toandrad          #+#    #+#             */
-/*   Updated: 2026/05/13 19:26:59 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/05/20 11:25:59 by toandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,6 +203,7 @@ t_token	*build_token_list(char **split);
 
 char	*expand_string(char *str, t_shell *shell);
 void	expand_all(t_cmd *cmds, t_shell *shell);
+int		update_quote_state(char c, int *sq, int *dq);
 char	*get_var(char *str, int *skip);
 char	*expand_var(char *str, int *i, t_shell *shell);
 char	**expand_to_wordlist(char *str, t_shell *shell);
