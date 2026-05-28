@@ -12,7 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-int	open_and_redirect(char *filename, int flags, int target)
+static int	open_and_redirect(char *filename, int flags, int target)
 {
 	int	fd;
 

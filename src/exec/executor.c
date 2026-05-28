@@ -17,18 +17,16 @@ static void	execute_external(t_cmd *cmd, t_shell *shell)
 	char	*path;
 	pid_t	pid;
 
-	path = resolve_path(cmd->argv[0], shell->env);
-	if (path == NULL)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd->argv[0], 2);
-		ft_putendl_fd(": command not found", 2);
-		shell->exit_status = 127;
+	if (prepare_heredocs(cmd, shell) == -1)
 		return ;
-	}
+	path = resolve_path(cmd->argv[0], shell->env);
+	if (!path)
+		return (ft_putstr_fd("minishell: ", 2), ft_putstr_fd(cmd->argv[0], 2),
+			ft_putendl_fd(": command not found", 2),
+			shell->exit_status = 127, close_prepared_heredocs(cmd));
 	pid = fork();
 	if (pid == -1)
-		return (free(path), perror("Fork"));
+		return (free(path), perror("Fork"), close_prepared_heredocs(cmd));
 	else if (pid == 0)
 		child_execute(cmd, path, shell);
 	else
@@ -36,6 +34,7 @@ static void	execute_external(t_cmd *cmd, t_shell *shell)
 		wait_child(pid, shell);
 		free(path);
 	}
+	close_prepared_heredocs(cmd);
 }
 
 static void	restore_close(int saved_stdout, int saved_stdin)
@@ -70,7 +69,10 @@ static void	execute_builtin(t_cmd *cmd, t_shell *shell, int builtin)
 	else if (builtin == 6)
 		builtin_env(shell);
 	else if (builtin == 7)
+	{
+		restore_close(saved_stdout, saved_stdin);
 		builtin_exit(cmd, shell);
+	}
 	restore_close(saved_stdout, saved_stdin);
 }
 
