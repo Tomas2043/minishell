@@ -93,6 +93,8 @@ typedef struct s_shell
 	t_env	*env;
 	int		exit_status;
 	int		running;
+	char	*hd_hist;
+	char	*hd_input;
 }	t_shell;
 
 typedef struct s_es
@@ -114,16 +116,12 @@ typedef struct s_wlst
 
 extern volatile sig_atomic_t	g_signal;
 
-// env_init.c 
+// env
 t_env	*init_env(char **envp);
-
-// env_helpers.c
 char	*get_env(t_env *lst, char *key);
 void	set_env(t_env **lst, char *key, char *value);
 void	remove_env(t_env **lst, char *key);
 char	**env_to_array(t_env *lst);
-
-// env_utils.c
 t_env	*new_env_node(char *key, char *value);
 void	env_add_back(t_env **list, t_env *new_node);
 int		count_env_size(t_env *lst);
@@ -137,7 +135,7 @@ char	*search_in_paths(char **paths, char *command);
 // redirections.c
 int		apply_redirections(t_redir *lst, t_shell *shell);
 
-// builtins.c & builtins2.c
+// builtins
 int		is_builtin(t_cmd *cmd);
 void	builtin_env(t_shell *shell);
 void	builtin_pwd(void);
@@ -146,37 +144,30 @@ void	builtin_exit(t_cmd *cmd, t_shell *shell);
 void	builtin_cd(t_cmd *cmd, t_shell *shell);
 void	builtin_export(t_cmd *cmd, t_shell *shell);
 void	builtin_unset(t_cmd *cmd, t_shell *shell);
-
-// builtin_utils.c
 int		is_n_flag(char *str);
 int		is_valid_identifier(char *str);
 void	sort_env_array(char **array, int size);
 char	**env_to_declare_array(t_env *lst);
 void	print_export_err(char *name, t_shell *shell);
 
-// executor.c
+// executor
 void	execute(t_cmd *cmd, t_shell *shell);
-
-// executor_helpers.c
 void	wait_child(pid_t pid, t_shell *shell);
 void	child_execute(t_cmd *cmd, char *path, t_shell *shell);
 void	pipeline_execute_external(t_cmd *cmd, t_shell *shell);
-
-// pipes.c
-void	execute_pipeline(t_cmd *cmd, t_shell *shell);
 
 // heredoc.c
 int		handle_heredoc(char *delimiter, t_shell *shell, int quoted);
 int		prepare_heredocs(t_cmd *cmd, t_shell *shell);
 void	close_prepared_heredocs(t_cmd *cmd);
 
-// pipe_helpers.c
+// pipes
 int		count_cmds(t_cmd *cmd);
 void	free_pipes(int **pipes, int count);
 void	close_pipe_fds(int **pipes, int count);
-void	setup_child_io(t_pipe_info *info);
+void	execute_pipeline(t_cmd *cmd, t_shell *shell);
 
-// signals.c & signals2.c
+// signals
 void	setup_signals(void);
 void	reset_signals(void);
 void	setup_heredoc_signals(void);
@@ -184,6 +175,15 @@ void	handle_heredoc_sigint(int sig);
 void	handle_wait_sigint(int sig);
 void	setup_wait_signals(void);
 
+// utils
+void	append_hd_hist(t_shell *shell, char *line);
+void	build_and_add_history(char *line, t_shell *shell);
+int		ft_strcmp(char *s1, char *s2);
+void	split_hd_input(char *line, t_shell *shell);
+char	*next_hd_line(t_shell *shell);
+char	*hd_readline(t_shell *shell);
+
+// tokenizer
 size_t	count_tokens(const char *s);
 int		handle_quote(char c, char *q);
 int		escapable_quote(char c);
@@ -197,10 +197,14 @@ int		is_op(char c);
 char	*dup_str(const char *s, size_t len);
 void	skip_spaces(const char *s, size_t *i);
 char	**ms_tokenize(const char *s);
-int		ft_strcmp(char *s1, char *s2);
+
+// syntax_check.c
 int		check_syntax(t_token *tokens);
+
+// token_building.c
 t_token	*build_token_list(char **split);
 
+// expander
 char	*expand_string(char *str, t_shell *shell);
 void	expand_all(t_cmd *cmds, t_shell *shell);
 int		update_quote_state(char c, int *sq, int *dq);
@@ -213,14 +217,14 @@ char	*wl_append(char *s, char c);
 int		wl_add(t_wlst *s);
 int		wl_dollar(char *str, int *i, t_wlst *s, t_shell *shell);
 
+// parser
 t_redir	*new_redir(t_redir_type type, char *filename, int quoted);
 void	redir_add_back(t_redir **head, t_redir *node);
 t_cmd	*parse_tokens(t_token *tokens);
-
 int		fill_cmd(t_cmd *cmd, t_token **tok);
-
 void	free_redir_list(t_redir *redir);
 void	free_cmd(t_cmd *cmd);
 void	free_cmd_list(t_cmd *cmd);
+void	free_tokens(t_token *tokens);
 
 #endif

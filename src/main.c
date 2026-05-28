@@ -12,17 +12,24 @@
 
 #include "../inc/minishell.h"
 
-static void	free_tokens(t_token *tokens)
+static char	*get_full_history_line(char *line)
 {
-	t_token	*tmp;
+	HIST_ENTRY	*he;
+	char		*full;
 
-	while (tokens)
-	{
-		tmp = tokens->next;
-		free(tokens->value);
-		free(tokens);
-		tokens = tmp;
-	}
+	he = current_history();
+	if (!he || !he->line)
+		return (line);
+	if (ft_strchr(line, '\n'))
+		return (line);
+	if (ft_strncmp(he->line, line, ft_strlen(line)) != 0
+		|| he->line[ft_strlen(line)] != '\n')
+		return (line);
+	full = ft_strdup(he->line);
+	if (!full)
+		return (line);
+	free(line);
+	return (full);
 }
 
 static t_token	*tokenize_input(char *line)
@@ -70,6 +77,7 @@ static void	shell_run_loop(t_shell *shell)
 	char	*line;
 
 	rl_done = 0;
+	using_history();
 	line = readline("minishell$ ");
 	if (g_signal == SIGINT)
 	{
@@ -85,8 +93,23 @@ static void	shell_run_loop(t_shell *shell)
 	}
 	if (*line)
 	{
-		add_history(line);
+		line = get_full_history_line(line);
+		split_hd_input(line, shell);
 		handle_line(line, shell);
+		build_and_add_history(line, shell);
+		while (shell->hd_input && *shell->hd_input)
+		{
+			char	*extra;
+			extra = next_hd_line(shell);
+			if (extra && *extra)
+			{
+				add_history(extra);
+				handle_line(extra, shell);
+			}
+			free(extra);
+		}
+		free(shell->hd_input);
+		shell->hd_input = NULL;
 	}
 	free(line);
 }
@@ -100,6 +123,8 @@ int	main(int ac, char **av, char **envp)
 	shell.env = init_env(envp);
 	shell.exit_status = 0;
 	shell.running = 1;
+	shell.hd_hist = NULL;
+	shell.hd_input = NULL;
 	rl_catch_signals = 0;
 	setup_signals();
 	while (shell.running)

@@ -43,6 +43,7 @@ SRCS = main.c \
 	   tokenizer_utils3.c \
 	   tokenizer_words.c \
 	   utils.c \
+	   utils_hd.c \
 		 path_resolution.c \
 		 redirections.c \
 		 builtins.c \

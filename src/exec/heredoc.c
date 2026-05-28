@@ -36,6 +36,10 @@ static int	heredoc_interrupted(t_heredoc *hd, t_shell *shell)
 	close(hd->fd[1]);
 	shell->exit_status = 130;
 	g_signal = 0;
+	free(shell->hd_hist);
+	shell->hd_hist = NULL;
+	free(shell->hd_input);
+	shell->hd_input = NULL;
 	setup_signals();
 	return (-1);
 }
@@ -47,7 +51,7 @@ t_heredoc *hd)
 
 	while (1)
 	{
-		line = readline("> ");
+		line = hd_readline(shell);
 		if (g_signal == SIGINT)
 			return (free(line), heredoc_interrupted(hd, shell));
 		if (!line)
@@ -57,9 +61,11 @@ t_heredoc *hd)
 		}
 		if (ft_strcmp(line, delim) == 0)
 		{
+			append_hd_hist(shell, line);
 			free(line);
 			break ;
 		}
+		append_hd_hist(shell, line);
 		write_heredoc_line(line, shell, hd->fd[1], quoted);
 	}
 	return (0);
