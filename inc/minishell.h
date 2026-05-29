@@ -182,6 +182,10 @@ int		ft_strcmp(char *s1, char *s2);
 void	split_hd_input(char *line, t_shell *shell);
 char	*next_hd_line(t_shell *shell);
 char	*hd_readline(t_shell *shell);
+char	*get_full_history_line(char *line);
+void	handle_line(char *line, t_shell *shell);
+void	process_hd_lines(t_shell *shell);
+void	process_input_line(char *line, t_shell *shell);
 
 // tokenizer
 size_t	count_tokens(const char *s);

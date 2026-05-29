@@ -54,3 +54,31 @@ char	*hd_readline(t_shell *shell)
 		return (next_hd_line(shell));
 	return (readline("> "));
 }
+
+void	process_hd_lines(t_shell *shell)
+{
+	char	*extra;
+
+	while (shell->hd_input && *shell->hd_input)
+	{
+		extra = next_hd_line(shell);
+		if (extra && *extra)
+		{
+			add_history(extra);
+			handle_line(extra, shell);
+		}
+		free(extra);
+	}
+	free(shell->hd_input);
+	shell->hd_input = NULL;
+}
+
+void	process_input_line(char *line, t_shell *shell)
+{
+	line = get_full_history_line(line);
+	split_hd_input(line, shell);
+	handle_line(line, shell);
+	build_and_add_history(line, shell);
+	process_hd_lines(shell);
+	free(line);
+}

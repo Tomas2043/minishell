@@ -12,7 +12,7 @@
 
 #include "../inc/minishell.h"
 
-static char	*get_full_history_line(char *line)
+char	*get_full_history_line(char *line)
 {
 	HIST_ENTRY	*he;
 	char		*full;
@@ -45,7 +45,7 @@ static t_token	*tokenize_input(char *line)
 	return (tokens);
 }
 
-static void	handle_line(char *line, t_shell *shell)
+void	handle_line(char *line, t_shell *shell)
 {
 	t_token	*tokens;
 	t_cmd	*cmds;
@@ -92,26 +92,9 @@ static void	shell_run_loop(t_shell *shell)
 		return ;
 	}
 	if (*line)
-	{
-		line = get_full_history_line(line);
-		split_hd_input(line, shell);
-		handle_line(line, shell);
-		build_and_add_history(line, shell);
-		while (shell->hd_input && *shell->hd_input)
-		{
-			char	*extra;
-			extra = next_hd_line(shell);
-			if (extra && *extra)
-			{
-				add_history(extra);
-				handle_line(extra, shell);
-			}
-			free(extra);
-		}
-		free(shell->hd_input);
-		shell->hd_input = NULL;
-	}
-	free(line);
+		process_input_line(line, shell);
+	else
+		free(line);
 }
 
 int	main(int ac, char **av, char **envp)
