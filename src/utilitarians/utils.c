@@ -39,22 +39,23 @@ void	append_hd_hist(t_shell *shell, char *line)
 	shell->hd_hist = tmp;
 }
 
-void	build_and_add_history(char *line, t_shell *shell)
+void	update_hd_history(t_shell *shell)
 {
-	char	*full;
-	char	*with_nl;
+	char		*full;
+	char		*with_nl;
+	HIST_ENTRY	*old;
 
-	if (!shell->hd_hist)
-	{
-		add_history(line);
+	if (!shell->hd_cmd || !shell->hd_hist)
 		return ;
-	}
-	full = ft_strjoin(line, shell->hd_hist);
-	free(shell->hd_hist);
-	shell->hd_hist = NULL;
+	full = ft_strjoin(shell->hd_cmd, shell->hd_hist);
+	if (!full)
+		return ;
 	with_nl = ft_strjoin(full, "\n");
 	free(full);
-	if (with_nl)
-		add_history(with_nl);
+	if (!with_nl)
+		return ;
+	old = replace_history_entry(shell->hd_hist_idx, with_nl, NULL);
 	free(with_nl);
+	if (old)
+		free_history_entry(old);
 }

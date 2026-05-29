@@ -63,9 +63,11 @@ t_heredoc *hd)
 		{
 			append_hd_hist(shell, line);
 			free(line);
+			update_hd_history(shell);
 			break ;
 		}
 		append_hd_hist(shell, line);
+		update_hd_history(shell);
 		write_heredoc_line(line, shell, hd->fd[1], quoted);
 	}
 	return (0);

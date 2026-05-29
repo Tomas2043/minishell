@@ -77,8 +77,13 @@ void	process_input_line(char *line, t_shell *shell)
 {
 	line = get_full_history_line(line);
 	split_hd_input(line, shell);
+	shell->hd_cmd = line;
+	add_history(line);
+	shell->hd_hist_idx = history_length - 1;
 	handle_line(line, shell);
-	build_and_add_history(line, shell);
+	free(shell->hd_hist);
+	shell->hd_hist = NULL;
+	shell->hd_cmd = NULL;
 	process_hd_lines(shell);
 	free(line);
 }

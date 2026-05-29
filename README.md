@@ -82,6 +82,8 @@ make re       # fclean + all
 - [GNU Readline Library](https://tiswww.case.edu/php/chet/readline/rltop.html)
 - [The Linux Programming Interface — Michael Kerrisk](https://man7.org/tlpi/)
 - [Advanced Programming in the UNIX Environment — W. Richard Stevens](https://www.apuebook.com/)
+- [Shell Command](https://pubs.opengroup.org/onlinepubs/9799919799/utilities/V3_chap02.html)
+- [Error codes](https://www.chromium.org/chromium-os/developer-library/reference/linux-constants/errnos/)
 - `man` pages: `fork`, `execve`, `pipe`, `dup2`, `waitpid`, `signal`, `sigaction`, `readline`
 
 ## Use of AI

@@ -108,6 +108,8 @@ int	main(int ac, char **av, char **envp)
 	shell.running = 1;
 	shell.hd_hist = NULL;
 	shell.hd_input = NULL;
+	shell.hd_cmd = NULL;
+	shell.hd_hist_idx = 0;
 	rl_catch_signals = 0;
 	setup_signals();
 	while (shell.running)

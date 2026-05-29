@@ -21,8 +21,8 @@ static void	execute_external(t_cmd *cmd, t_shell *shell)
 		return ;
 	path = resolve_path(cmd->argv[0], shell->env);
 	if (!path)
-		return (ft_putstr_fd("minishell: ", 2), ft_putstr_fd(cmd->argv[0], 2),
-			ft_putendl_fd(": command not found", 2),
+		return (ft_putstr_fd("Command '", 2), ft_putstr_fd(cmd->argv[0], 2),
+			ft_putendl_fd("' not found", 2),
 			shell->exit_status = 127, close_prepared_heredocs(cmd));
 	pid = fork();
 	if (pid == -1)
@@ -108,7 +108,7 @@ void	execute(t_cmd *cmd, t_shell *shell)
 	}
 	if (cmd->argv[0][0] == '\0')
 	{
-		ft_putendl_fd("minishell: command not found", 2);
+		ft_putendl_fd("Command '' not found", 2);
 		shell->exit_status = 127;
 		return ;
 	}

@@ -95,6 +95,8 @@ typedef struct s_shell
 	int		running;
 	char	*hd_hist;
 	char	*hd_input;
+	char	*hd_cmd;
+	int		hd_hist_idx;
 }	t_shell;
 
 typedef struct s_es
@@ -177,7 +179,7 @@ void	setup_wait_signals(void);
 
 // utils
 void	append_hd_hist(t_shell *shell, char *line);
-void	build_and_add_history(char *line, t_shell *shell);
+void	update_hd_history(t_shell *shell);
 int		ft_strcmp(char *s1, char *s2);
 void	split_hd_input(char *line, t_shell *shell);
 char	*next_hd_line(t_shell *shell);
