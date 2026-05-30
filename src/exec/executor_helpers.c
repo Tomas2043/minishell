@@ -44,6 +44,22 @@ void	child_execute(t_cmd *cmd, char *path, t_shell *shell)
 	exit(126);
 }
 
+void	dispatch_builtin(t_cmd *cmd, t_shell *shell, int builtin)
+{
+	if (builtin == 1)
+		builtin_echo(cmd);
+	else if (builtin == 2)
+		builtin_cd(cmd, shell);
+	else if (builtin == 3)
+		builtin_pwd();
+	else if (builtin == 4)
+		builtin_export(cmd, shell);
+	else if (builtin == 5)
+		builtin_unset(cmd, shell);
+	else if (builtin == 6)
+		builtin_env(shell);
+}
+
 void	pipeline_execute_external(t_cmd *cmd, t_shell *shell)
 {
 	char	*path;

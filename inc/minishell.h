@@ -157,6 +157,7 @@ void	execute(t_cmd *cmd, t_shell *shell);
 void	wait_child(pid_t pid, t_shell *shell);
 void	child_execute(t_cmd *cmd, char *path, t_shell *shell);
 void	pipeline_execute_external(t_cmd *cmd, t_shell *shell);
+void	dispatch_builtin(t_cmd *cmd, t_shell *shell, int builtin);
 
 // heredoc.c
 int		handle_heredoc(char *delimiter, t_shell *shell, int quoted);

@@ -56,23 +56,13 @@ static void	execute_builtin(t_cmd *cmd, t_shell *shell, int builtin)
 	if (apply_redirections(cmd->redirs, shell) == -1)
 		return (shell->exit_status = 1,
 			restore_close(saved_stdout, saved_stdin));
-	if (builtin == 1)
-		builtin_echo(cmd);
-	else if (builtin == 2)
-		builtin_cd(cmd, shell);
-	else if (builtin == 3)
-		builtin_pwd();
-	else if (builtin == 4)
-		builtin_export(cmd, shell);
-	else if (builtin == 5)
-		builtin_unset(cmd, shell);
-	else if (builtin == 6)
-		builtin_env(shell);
-	else if (builtin == 7)
+	if (builtin == 7)
 	{
 		restore_close(saved_stdout, saved_stdin);
 		builtin_exit(cmd, shell);
+		return ;
 	}
+	dispatch_builtin(cmd, shell, builtin);
 	restore_close(saved_stdout, saved_stdin);
 }
 
