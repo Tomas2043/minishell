@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 12:54:08 by toandrad          #+#    #+#             */
-/*   Updated: 2026/05/20 11:25:59 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/06/01 11:12:21 by darafael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <readline/history.h>
 # include <termios.h>
 # include <errno.h>
+# include <sys/stat.h>
 
 typedef struct s_heredoc
 {
@@ -157,6 +158,7 @@ void	execute(t_cmd *cmd, t_shell *shell);
 void	wait_child(pid_t pid, t_shell *shell);
 void	child_execute(t_cmd *cmd, char *path, t_shell *shell);
 void	pipeline_execute_external(t_cmd *cmd, t_shell *shell);
+void	print_not_found_error(char *cmd);
 void	dispatch_builtin(t_cmd *cmd, t_shell *shell, int builtin);
 
 // heredoc.c
@@ -215,6 +217,8 @@ t_token	*build_token_list(char **split);
 char	*expand_string(char *str, t_shell *shell);
 void	expand_all(t_cmd *cmds, t_shell *shell);
 int		update_quote_state(char c, int *sq, int *dq);
+int		is_quoted_empty(char *str);
+void	compact_empty_args(char **argv, int *keep);
 char	*get_var(char *str, int *skip);
 char	*expand_var(char *str, int *i, t_shell *shell);
 char	**expand_to_wordlist(char *str, t_shell *shell);

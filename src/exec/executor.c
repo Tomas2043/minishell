@@ -6,7 +6,7 @@
 /*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 13:14:41 by toandrad          #+#    #+#             */
-/*   Updated: 2026/05/20 15:21:04 by darafael         ###   ########.fr       */
+/*   Updated: 2026/06/01 11:12:21 by darafael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ static void	execute_external(t_cmd *cmd, t_shell *shell)
 		return ;
 	path = resolve_path(cmd->argv[0], shell->env);
 	if (!path)
-		return (ft_putstr_fd("Command '", 2), ft_putstr_fd(cmd->argv[0], 2),
-			ft_putendl_fd("' not found", 2),
+		return (print_not_found_error(cmd->argv[0]),
 			shell->exit_status = 127, close_prepared_heredocs(cmd));
 	pid = fork();
 	if (pid == -1)
@@ -94,12 +93,6 @@ void	execute(t_cmd *cmd, t_shell *shell)
 	if (!cmd->argv || !cmd->argv[0])
 	{
 		execute_empty_command(cmd, shell);
-		return ;
-	}
-	if (cmd->argv[0][0] == '\0')
-	{
-		ft_putendl_fd("Command '' not found", 2);
-		shell->exit_status = 127;
 		return ;
 	}
 	builtin = is_builtin(cmd);

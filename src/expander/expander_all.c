@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_all.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:03:44 by darafael          #+#    #+#             */
-/*   Updated: 2026/04/21 10:29:34 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/06/01 11:01:11 by darafael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,40 @@ char	*expand_var(char *str, int *i, t_shell *shell)
 	return (expanded);
 }
 
-static void	expand_argv(t_cmd *cmd, t_shell *shell)
+static int	expand_args_strings(char **argv, int *keep, t_shell *shell)
 {
 	char	*expanded;
 	int		i;
 
 	i = 0;
-	while (cmd->argv[i])
+	while (argv[i])
 	{
-		expanded = expand_string(cmd->argv[i], shell);
+		keep[i] = is_quoted_empty(argv[i]);
+		expanded = expand_string(argv[i], shell);
+		free(argv[i]);
 		if (!expanded)
-			return ;
-		free(cmd->argv[i]);
-		cmd->argv[i] = expanded;
+			return (0);
+		argv[i] = expanded;
 		i++;
 	}
+	return (1);
+}
+
+static void	expand_argv(t_cmd *cmd, t_shell *shell)
+{
+	int	*keep;
+	int	argc;
+
+	argc = 0;
+	while (cmd->argv[argc])
+		argc++;
+	keep = ft_calloc(argc, sizeof(int));
+	if (!keep)
+		return ;
+	if (!expand_args_strings(cmd->argv, keep, shell))
+		return (free(keep));
+	compact_empty_args(cmd->argv, keep);
+	free(keep);
 }
 
 static void	expand_redirs(t_redir *redirs, t_shell *shell)

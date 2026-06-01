@@ -46,9 +46,9 @@ char	*resolve_path(char *command, t_env *lst)
 		return (NULL);
 	if (ft_strchr(command, '/'))
 	{
-		if (access(command, X_OK) == 0)
-			return (ft_strdup(command));
-		return (NULL);
+		if (access(command, F_OK) != 0)
+			return (NULL);
+		return (ft_strdup(command));
 	}
 	path = get_env(lst, "PATH");
 	if (!path)

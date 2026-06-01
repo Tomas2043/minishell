@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:59:56 by toandrad          #+#    #+#             */
-/*   Updated: 2026/05/13 18:24:13 by toandrad         ###   ########.fr       */
+/*   Updated: 2026/06/01 10:26:46 by darafael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	builtin_exit(t_cmd *cmd, t_shell *shell)
 				&& ft_strcmp(cmd->argv[1] + sign, "9223372036854775807") > 0))
 		{
 			ft_putendl_fd("minishell: exit: numeric argument required", 2);
-			exit(255);
+			exit(2);
 		}
 		else if (cmd->argv[2] != NULL)
 		{

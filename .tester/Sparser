@@ -1,0 +1,16 @@
+"
+'
+ls |
+|
+>
+<
+a
+0
+$
+\
+ls
+> >
+| ls
+export a="a b"
+echo $a
+unset a

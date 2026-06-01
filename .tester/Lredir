@@ -1,0 +1,39 @@
+< test_files/nodir
+> test_files/nodir
+< test_files/nofile
+> test_files/nofile
+< ///$HOME/0/.tester/test_files//nofile
+> ///$HOME/0/.tester/test_files//nofile
+< ///$HOME/0/.tester/test_files//nodir
+> ///$HOME/0/.tester/test_files//nodir
+< ///$HOME/0/.tester/test_files///
+> ///$HOME/0/.tester/test_files///
+< ///$HOME/0/.tester/test_files///
+> ///$HOME/0/.tester/test_files///
+ls > $NOSUCHVAR
+ls > $USER
+< $EMPTYVAR cat
+echo hello > " "
+touch no_perm && chmod 000 no_perm
+cat < no_perm
+echo "test" > no_perm
+ls > .
+cat < /
+cat < folder
+ls > ..
+cat < ../
+ls > .
+cat < ./
+ls > //////
+cat < ./.
+ls > /tmp/absolute_test
+ls > ./relative_test
+ls > subfolder/test
+echo "first" > file1 > file2 > file3
+cat < file3 > file4
+ls >
+<
+ls >>> file
+ls > > file
+cat < non_existent
+ls > new_file
