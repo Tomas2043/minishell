@@ -6,63 +6,72 @@
 /*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 13:38:14 by toandrad          #+#    #+#             */
-/*   Updated: 2026/05/26 11:56:46 by darafael         ###   ########.fr       */
+/*   Updated: 2026/06/01 13:34:34 by darafael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-char	*get_full_history_line(char *line)
+static char	*read_continued_line(char *line, t_shell *shell)
 {
-	HIST_ENTRY	*he;
-	char		*full;
+	char	*cont;
 
-	he = current_history();
-	if (!he || !he->line)
+	if (!isatty(STDIN_FILENO))
 		return (line);
-	if (ft_strchr(line, '\n'))
-		return (line);
-	if (ft_strncmp(he->line, line, ft_strlen(line)) != 0
-		|| he->line[ft_strlen(line)] != '\n')
-		return (line);
-	full = ft_strdup(he->line);
-	if (!full)
-		return (line);
-	free(line);
-	return (full);
+	setup_cont_signals();
+	rl_event_hook = cont_event_hook;
+	while (find_unclosed_quote(line) || has_trailing_pipe(line))
+	{
+		cont = readline("> ");
+		if (!cont || g_signal == SIGINT)
+			return (cancel_cont(line, cont, shell));
+		line = append_cont_line(line, cont);
+	}
+	restore_signals();
+	return (line);
 }
 
-static t_token	*tokenize_input(char *line)
+static t_token	*tokenize_and_check(char *line, t_shell *shell)
 {
-	char	**split;
 	t_token	*tokens;
+	char	**split;
+	char	*bad;
 
 	split = ms_tokenize(line);
 	if (!split)
 		return (NULL);
 	tokens = build_token_list(split);
 	free_split(split);
+	if (!check_syntax(tokens, &bad))
+	{
+		print_syntax_error(bad);
+		shell->exit_status = 2;
+		free_tokens(tokens);
+		return (NULL);
+	}
 	return (tokens);
 }
 
-void	handle_line(char *line, t_shell *shell)
+void	handle_line(char **linep, t_shell *shell)
 {
 	t_token	*tokens;
 	t_cmd	*cmds;
+	char	*line;
 	size_t	i;
 
 	i = 0;
+	line = *linep;
 	while (line[i] && is_space(line[i]))
 		i++;
 	if (!line[i])
 		return ;
-	tokens = tokenize_input(line);
+	line = read_continued_line(line, shell);
+	*linep = line;
+	if (!line)
+		return ((void)(shell->exit_status = 130));
+	tokens = tokenize_and_check(line, shell);
 	if (!tokens)
-		return (ft_putendl_fd("minishell: syntax error: unclosed quote", 2),
-			(void)(shell->exit_status = 2));
-	if (!check_syntax(tokens))
-		return (ft_putendl_fd("minishell: syntax error near unexpected token",
-				2), shell->exit_status = 2, free_tokens(tokens));
+		return ;
 	cmds = parse_tokens(tokens);
 	free_tokens(tokens);
 	if (!cmds)

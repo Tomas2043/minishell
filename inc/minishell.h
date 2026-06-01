@@ -6,7 +6,7 @@
 /*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 12:54:08 by toandrad          #+#    #+#             */
-/*   Updated: 2026/06/01 11:12:21 by darafael         ###   ########.fr       */
+/*   Updated: 2026/06/01 13:59:41 by darafael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,8 @@ void	setup_heredoc_signals(void);
 void	handle_heredoc_sigint(int sig);
 void	handle_wait_sigint(int sig);
 void	setup_wait_signals(void);
+void	setup_cont_signals(void);
+int		cont_event_hook(void);
 
 // utils
 void	append_hd_hist(t_shell *shell, char *line);
@@ -188,9 +190,13 @@ void	split_hd_input(char *line, t_shell *shell);
 char	*next_hd_line(t_shell *shell);
 char	*hd_readline(t_shell *shell);
 char	*get_full_history_line(char *line);
-void	handle_line(char *line, t_shell *shell);
+void	handle_line(char **line, t_shell *shell);
 void	process_hd_lines(t_shell *shell);
 void	process_input_line(char *line, t_shell *shell);
+void	restore_signals(void);
+char	*cancel_cont(char *line, char *cont, t_shell *shell);
+char	*append_cont_line(char *line, char *cont);
+int		digit_overflow(char *str);
 
 // tokenizer
 size_t	count_tokens(const char *s);
@@ -208,7 +214,10 @@ void	skip_spaces(const char *s, size_t *i);
 char	**ms_tokenize(const char *s);
 
 // syntax_check.c
-int		check_syntax(t_token *tokens);
+int		check_syntax(t_token *tokens, char **bad);
+char	find_unclosed_quote(const char *line);
+int		has_trailing_pipe(const char *line);
+void	print_syntax_error(char *bad);
 
 // token_building.c
 t_token	*build_token_list(char **split);

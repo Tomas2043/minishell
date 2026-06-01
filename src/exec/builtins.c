@@ -6,7 +6,7 @@
 /*   By: darafael <darafael@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:59:56 by toandrad          #+#    #+#             */
-/*   Updated: 2026/06/01 10:26:46 by darafael         ###   ########.fr       */
+/*   Updated: 2026/06/01 13:52:22 by darafael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,19 +90,12 @@ void	builtin_echo(t_cmd *cmd)
 
 void	builtin_exit(t_cmd *cmd, t_shell *shell)
 {
-	int	len;
-	int	sign;
-
 	write(1, "exit\n", 5);
 	if (!cmd->argv[1])
 		exit(shell->exit_status);
 	else
 	{
-		len = ft_strlen(cmd->argv[1]);
-		sign = (cmd->argv[1][0] == '-');
-		if (!ft_isnumeric(cmd->argv[1]) || (len - sign) > 19
-			|| ((len - sign) == 19
-				&& ft_strcmp(cmd->argv[1] + sign, "9223372036854775807") > 0))
+		if (!ft_isnumeric(cmd->argv[1]) || digit_overflow(cmd->argv[1]))
 		{
 			ft_putendl_fd("minishell: exit: numeric argument required", 2);
 			exit(2);

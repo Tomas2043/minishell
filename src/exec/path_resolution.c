@@ -14,9 +14,10 @@
 
 char	*search_in_paths(char **paths, char *command)
 {
-	int		i;
-	char	*tmp;
-	char	*slash;
+	int			i;
+	char		*tmp;
+	char		*slash;
+	struct stat	st;
 
 	i = 0;
 	while (paths[i] != NULL)
@@ -25,7 +26,8 @@ char	*search_in_paths(char **paths, char *command)
 		free(paths[i]);
 		paths[i] = slash;
 		tmp = ft_strjoin(paths[i], command);
-		if (access(tmp, X_OK) == 0)
+		if (access(tmp, X_OK) == 0 && stat(tmp, &st) == 0
+			&& !S_ISDIR(st.st_mode))
 		{
 			free_env_array(paths);
 			return (tmp);

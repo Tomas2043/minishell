@@ -30,6 +30,11 @@ static int	open_and_redirect(char *filename, int flags, int target)
 
 static int	apply_file_redir(t_redir *redir)
 {
+	if (!redir->filename || !*redir->filename)
+	{
+		ft_putendl_fd("minishell: ambiguous redirect", 2);
+		return (-1);
+	}
 	if (redir->type == REDIR_IN)
 		return (open_and_redirect(redir->filename, O_RDONLY, STDIN_FILENO));
 	if (redir->type == REDIR_OUT)

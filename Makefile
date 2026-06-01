@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: toandrad <toandrad@student.42.fr>          +#+  +:+       +#+         #
+#    By: darafael <darafael@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/17 11:50:14 by toandrad          #+#    #+#              #
-#    Updated: 2026/05/20 11:27:22 by toandrad         ###   ########.fr        #
+#    Updated: 2026/06/01 13:04:57 by darafael         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ SRCS = main.c \
 	   tokenizer_utils3.c \
 	   tokenizer_words.c \
 	   utils.c \
+	   utils2.c \
 	   utils_hd.c \
 		 path_resolution.c \
 		 redirections.c \
